@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Stats & Info — VHSS Admin</title>
+<link rel="stylesheet" href="../css/admin.css"/>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="brand-logo-wrap">V</div><div class="brand-title">VHSS Admin Panel</div><div class="brand-sub">Malkangiri, Odisha</div><span class="admin-badge">ADMIN</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="../index.html" target="_blank"><span class="nav-icon">🌐</span> View Website</a>
+      <div class="nav-section-label">Manage Content</div>
+      <a href="courses.html"><span class="nav-icon">📚</span> Courses</a>
+      <a href="toppers.html"><span class="nav-icon">🏆</span> Toppers & Results</a>
+      <a href="faculty.html"><span class="nav-icon">👨‍🏫</span> Faculty</a>
+      <a href="gallery.html"><span class="nav-icon">🖼️</span> Gallery</a>
+      <a href="news.html"><span class="nav-icon">📢</span> News & Events</a>
+      <a href="admissions.html"><span class="nav-icon">📋</span> Admissions</a>
+      <a href="stats.html" class="active"><span class="nav-icon">📊</span> Stats & Info</a>
+    </nav>
+    <div class="sidebar-footer"><a href="login.html" onclick="sessionStorage.removeItem('vhss_admin')">🚪 Logout</a></div>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div class="topbar-title">Stats & Site Info</div>
+      <div class="topbar-right"><span>👤 <strong>Administrator</strong></span></div>
+    </div>
+    <div class="admin-content">
+      <div class="page-header"><div><h1>Site Statistics & Contact Info</h1><p>Edit homepage stat numbers and college contact information.</p></div></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+        <!-- Stats -->
+        <div class="table-box" style="padding:22px">
+          <h2 style="font-size:15px;color:var(--navy);margin-bottom:16px;font-family:'Inter',sans-serif">📊 Homepage Stats</h2>
+          <div class="form-row">
+            <div class="form-group"><label>Students</label><input type="text" id="s_students"/></div>
+            <div class="form-group"><label>Faculty</label><input type="text" id="s_faculty"/></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Pass Rate</label><input type="text" id="s_passRate"/></div>
+            <div class="form-group"><label>Experience</label><input type="text" id="s_experience"/></div>
+          </div>
+          <div class="form-group"><label>Streams</label><input type="text" id="s_streams"/></div>
+          <button class="btn btn-navy" onclick="saveStats()">💾 Save Stats</button>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="table-box" style="padding:22px">
+          <h2 style="font-size:15px;color:var(--navy);margin-bottom:16px;font-family:'Inter',sans-serif">📞 Contact Information</h2>
+          <div class="form-group"><label>Address</label><textarea id="c_address"></textarea></div>
+          <div class="form-group"><label>Email</label><input type="email" id="c_email"/></div>
+          <div class="form-group"><label>Phone Numbers (comma separated)</label><input type="text" id="c_phones"/></div>
+          <button class="btn btn-navy" onclick="saveContact()">💾 Save Contact Info</button>
+        </div>
+      </div>
+
+      <!-- Placements -->
+      <div class="table-box" style="padding:22px;margin-top:20px">
+        <h2 style="font-size:15px;color:var(--navy);margin-bottom:16px;font-family:'Inter',sans-serif">🎯 Placement Stats</h2>
+        <div class="form-row">
+          <div class="form-group"><label>Placement %</label><input type="text" id="p_placed"/></div>
+          <div class="form-group"><label>Average Package</label><input type="text" id="p_avg"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Top Package</label><input type="text" id="p_top"/></div>
+          <div class="form-group"><label>Companies Visiting</label><input type="text" id="p_companies"/></div>
+        </div>
+        <button class="btn btn-saffron" onclick="savePlacements()">💾 Save Placement Stats</button>
+      </div>
+
+      <!-- Danger Zone -->
+      <div class="table-box" style="padding:22px;margin-top:20px;border:1.5px solid rgba(192,57,43,0.2)">
+        <h2 style="font-size:15px;color:var(--red);margin-bottom:8px;font-family:'Inter',sans-serif">⚠️ Reset Data</h2>
+        <p style="font-size:13px;color:var(--mid-gray);margin-bottom:14px">Reset all website content back to default sample data. This cannot be undone.</p>
+        <button class="btn btn-danger" onclick="resetAll()">🗑️ Reset All Data to Defaults</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="../js/data.js"></script>
+<script>
+requireAdmin();
+
+const stats = getData('stats');
+document.getElementById('s_students').value = stats.students;
+document.getElementById('s_faculty').value = stats.faculty;
+document.getElementById('s_passRate').value = stats.passRate;
+document.getElementById('s_experience').value = stats.experience;
+document.getElementById('s_streams').value = stats.streams;
+
+function saveStats() {
+  setData('stats', {
+    students: document.getElementById('s_students').value.trim(),
+    faculty: document.getElementById('s_faculty').value.trim(),
+    passRate: document.getElementById('s_passRate').value.trim(),
+    experience: document.getElementById('s_experience').value.trim(),
+    streams: document.getElementById('s_streams').value.trim()
+  });
+  showToast('Stats updated!');
+}
+
+const si = getData('siteInfo');
+document.getElementById('c_address').value = si.address;
+document.getElementById('c_email').value = si.email;
+document.getElementById('c_phones').value = si.phones.join(', ');
+
+function saveContact() {
+  const data = getData('siteInfo');
+  data.address = document.getElementById('c_address').value.trim();
+  data.email = document.getElementById('c_email').value.trim();
+  data.phones = document.getElementById('c_phones').value.split(',').map(p => p.trim()).filter(Boolean);
+  setData('siteInfo', data);
+  showToast('Contact info updated!');
+}
+
+const placements = getData('placements');
+document.getElementById('p_placed').value = placements.stats.placed;
+document.getElementById('p_avg').value = placements.stats.avgPackage;
+document.getElementById('p_top').value = placements.stats.topPackage;
+document.getElementById('p_companies').value = placements.stats.companies;
+
+function savePlacements() {
+  const data = getData('placements');
+  data.stats = {
+    placed: document.getElementById('p_placed').value.trim(),
+    avgPackage: document.getElementById('p_avg').value.trim(),
+    topPackage: document.getElementById('p_top').value.trim(),
+    companies: document.getElementById('p_companies').value.trim()
+  };
+  setData('placements', data);
+  showToast('Placement stats updated!');
+}
+
+function resetAll() {
+  if (!confirm('This will reset ALL website content to default sample data. Are you absolutely sure?')) return;
+  if (!confirm('This cannot be undone. Confirm reset?')) return;
+  ['courses','toppers','faculty','gallery','news','stats','siteInfo','admissions','placements'].forEach(resetData);
+  showToast('All data reset to defaults!');
+  setTimeout(() => location.reload(), 1200);
+}
+</script>
+</body>
+</html>

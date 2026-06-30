@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Courses — VHSS Malkangiri</title>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+.course-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); transition: var(--transition); margin-bottom: 24px; }
+.course-card:hover { box-shadow: var(--shadow-lg); }
+.course-header { padding: 28px 28px 20px; display: flex; align-items: flex-start; gap: 20px; border-bottom: 1px solid var(--light-gray); }
+.course-icon-wrap { width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; background: var(--off-white); }
+.course-header-info { flex: 1; }
+.course-header-info h2 { font-size: 22px; color: var(--navy); margin-bottom: 6px; }
+.course-meta-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.course-body { padding: 24px 28px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; }
+.subjects-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.subject-tag { background: var(--off-white); border: 1px solid var(--light-gray); color: var(--navy); font-size: 13px; padding: 5px 12px; border-radius: 20px; font-weight: 500; }
+.course-detail-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--light-gray); font-size: 14px; }
+.course-detail-row:last-child { border-bottom: none; }
+.detail-label { font-weight: 600; color: var(--navy); min-width: 100px; }
+.detail-val { color: var(--mid-gray); }
+.career-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.career-tag { background: rgba(10,31,92,0.07); color: var(--navy); font-size: 12px; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
+.course-accent { height: 5px; }
+</style>
+</head>
+<body>
+<div class="top-strip">
+  <span>📍 Main Road, Malkangiri, Odisha</span>
+  <div class="phones"><a href="tel:7684035626">📞 7684035626</a></div>
+</div>
+<nav class="navbar">
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html"><div class="brand-logo">V</div><div class="brand-text"><div class="brand-name">Vivekananda Higher Secondary</div><div class="brand-sub">+2 Junior Science College • Malkangiri</div></div></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="courses.html" class="active">Courses</a>
+      <a href="admissions.html">Admissions</a><a href="faculty.html">Faculty</a>
+      <a href="results.html">Results</a><a href="campus.html">Campus</a><a href="contact.html">Contact</a>
+      <a href="admissions.html" class="btn-apply">Apply Now</a>
+    </div>
+    <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="breadcrumb"><a href="index.html">Home</a> › Courses</div>
+  <h1>Our Courses & Streams</h1>
+  <p>All streams offered at VHSS — Science, Commerce and Arts — with complete details on subjects, fees and career paths.</p>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div id="coursesContainer"></div>
+    <div class="empty-state" id="emptyState" style="display:none"><div class="empty-icon">📚</div><p>No courses added yet. Check back soon.</p></div>
+  </div>
+</section>
+
+<div style="background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:48px 24px;text-align:center;color:white">
+  <h2 style="color:var(--saffron-light);margin-bottom:12px">Ready to Enroll?</h2>
+  <p style="color:rgba(255,255,255,0.7);margin-bottom:24px">Admissions are open for 2025–26. Seats are limited — apply today.</p>
+  <a href="admissions.html" class="btn btn-primary btn-lg">Apply for Admission</a>
+  &nbsp;&nbsp;
+  <a href="contact.html" class="btn btn-outline btn-lg" style="color:white;border-color:rgba(255,255,255,0.35)">Contact Us</a>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><div class="footer-brand-name">Vivekananda Higher Secondary +2 Junior Science College</div><p>Inspiring generations through quality education in Malkangiri.</p></div>
+    <div class="footer-col"><h4>Quick Links</h4><a href="about.html">About</a><a href="courses.html">Courses</a><a href="admissions.html">Admissions</a><a href="faculty.html">Faculty</a><a href="results.html">Results</a></div>
+    <div class="footer-col"><h4>Contact</h4><address>Main Road, Malkangiri, Odisha - 764048</address></div>
+    <div class="footer-col"><h4>Phones</h4><a href="tel:7684035626">7684035626</a><a href="tel:9937448007">9937448007</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2025 VHSS Malkangiri. All rights reserved.</span><a href="admin/login.html">Admin Panel</a></div>
+</footer>
+
+<script src="js/data.js"></script>
+<script>
+const COLORS = ['#e8780a','#1a6b3a','#0a1f5c','#7d2a2a'];
+const courses = getData('courses');
+const container = document.getElementById('coursesContainer');
+const emptyState = document.getElementById('emptyState');
+
+if (!courses.length) {
+  emptyState.style.display = 'block';
+} else {
+  container.innerHTML = courses.map((c, i) => `
+    <div class="course-card">
+      <div class="course-accent" style="background:${COLORS[i % COLORS.length]}"></div>
+      <div class="course-header">
+        <div class="course-icon-wrap" style="background:${COLORS[i%COLORS.length]}18">${c.icon}</div>
+        <div class="course-header-info">
+          <h2>${c.stream}</h2>
+          <p style="color:var(--mid-gray);font-size:14px;margin-bottom:10px">${c.description}</p>
+          <div class="course-meta-row">
+            <span class="badge badge-navy">⏱ ${c.duration}</span>
+            <span class="badge badge-saffron">💺 ${c.seats} Seats</span>
+            <span class="badge badge-green">💰 ${c.fees}</span>
+          </div>
+        </div>
+      </div>
+      <div class="course-body">
+        <div>
+          <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:8px">Subjects</p>
+          <div class="subjects-list">${(c.subjects||[]).map(s => `<span class="subject-tag">${s}</span>`).join('')}</div>
+          <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-top:20px;margin-bottom:8px">Career Paths</p>
+          <div class="career-list">${(c.career||[]).map(ca => `<span class="career-tag">→ ${ca}</span>`).join('')}</div>
+        </div>
+        <div>
+          <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid-gray);margin-bottom:8px">Details</p>
+          <div class="course-detail-row"><span class="detail-label">Duration</span><span class="detail-val">${c.duration}</span></div>
+          <div class="course-detail-row"><span class="detail-label">Total Seats</span><span class="detail-val">${c.seats} seats per year</span></div>
+          <div class="course-detail-row"><span class="detail-label">Annual Fees</span><span class="detail-val">${c.fees}</span></div>
+          <div class="course-detail-row"><span class="detail-label">Eligibility</span><span class="detail-val">${c.eligibility}</span></div>
+          <a href="admissions.html" class="btn btn-navy btn-sm" style="margin-top:18px;width:100%;justify-content:center">Apply for ${c.stream} →</a>
+        </div>
+      </div>
+    </div>`).join('');
+}
+</script>
+</body>
+</html>

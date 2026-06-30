@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Results & Toppers — VHSS Malkangiri</title>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+.filter-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 32px; }
+.filter-btn { padding: 8px 18px; border-radius: 20px; border: 1.5px solid var(--light-gray); background: white; font-size: 13px; font-weight: 600; color: var(--mid-gray); cursor: pointer; transition: var(--transition); font-family: 'Inter', sans-serif; }
+.filter-btn.active, .filter-btn:hover { background: var(--navy); color: white; border-color: var(--navy); }
+.toppers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+.topper-card {
+  background: white; border-radius: 16px; padding: 28px 20px;
+  text-align: center; box-shadow: var(--shadow);
+  transition: var(--transition); border-bottom: 3px solid var(--saffron);
+  position: relative;
+}
+.topper-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+.rank-badge {
+  position: absolute; top: 16px; right: 16px;
+  background: var(--navy); color: var(--saffron-light);
+  font-size: 11px; font-weight: 700; padding: 3px 10px;
+  border-radius: 20px;
+}
+.topper-photo {
+  width: 88px; height: 88px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; border: 3px solid var(--saffron);
+  margin: 0 auto 14px;
+}
+.topper-photo img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.topper-card h3 { font-size: 16px; color: var(--navy); margin-bottom: 4px; }
+.topper-pct { font-size: 26px; font-weight: 900; color: var(--saffron); font-family: 'Playfair Display', serif; }
+.topper-marks { font-size: 13px; color: var(--mid-gray); }
+.topper-stream-tag { font-size: 12px; color: white; background: var(--navy); padding: 3px 12px; border-radius: 20px; margin: 8px auto 0; display: inline-block; }
+.topper-year-tag { font-size: 11px; color: var(--saffron); font-weight: 700; margin-top: 6px; }
+.result-stat-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 40px; }
+.result-stat { background: white; border-radius: 12px; padding: 20px; text-align: center; box-shadow: var(--shadow); }
+.result-stat .val { font-size: 28px; font-weight: 900; color: var(--saffron); font-family: 'Playfair Display', serif; }
+.result-stat .lbl { font-size: 12px; color: var(--mid-gray); font-weight: 600; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="top-strip">
+  <span>📍 Main Road, Malkangiri, Odisha</span>
+  <div class="phones"><a href="tel:7684035626">📞 7684035626</a></div>
+</div>
+<nav class="navbar">
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html"><div class="brand-logo">V</div><div class="brand-text"><div class="brand-name">Vivekananda Higher Secondary</div><div class="brand-sub">+2 Junior Science College • Malkangiri</div></div></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="courses.html">Courses</a>
+      <a href="admissions.html">Admissions</a><a href="faculty.html">Faculty</a>
+      <a href="results.html" class="active">Results</a><a href="campus.html">Campus</a><a href="contact.html">Contact</a>
+      <a href="admissions.html" class="btn-apply">Apply Now</a>
+    </div>
+    <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="breadcrumb"><a href="index.html">Home</a> › Results & Toppers</div>
+  <h1>Results & Toppers</h1>
+  <p>Celebrating our brightest stars — year-wise toppers who made Malkangiri proud.</p>
+</div>
+
+<section class="section">
+  <div class="container">
+    <!-- Result Stats -->
+    <div class="result-stat-row">
+      <div class="result-stat"><div class="val">97%</div><div class="lbl">Pass Rate 2024</div></div>
+      <div class="result-stat"><div class="val">18</div><div class="lbl">Students Above 90%</div></div>
+      <div class="result-stat"><div class="val">5+</div><div class="lbl">District Toppers</div></div>
+      <div class="result-stat"><div class="val">2</div><div class="lbl">State Rank Holders</div></div>
+    </div>
+
+    <!-- Filter -->
+    <div class="section-header">
+      <div class="section-eyebrow">Hall of Fame</div>
+      <h2 class="section-title">Our Toppers</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" data-filter="all" onclick="filterToppers('all',this)">All Years</button>
+    </div>
+    <div class="toppers-grid" id="toppersGrid"></div>
+    <div class="empty-state" id="emptyState" style="display:none"><div class="empty-icon">🏆</div><p>No toppers added yet. Admin can add topper records and photos.</p></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><div class="footer-brand-name">Vivekananda Higher Secondary +2 Junior Science College</div><p>Inspiring generations through quality education in Malkangiri.</p></div>
+    <div class="footer-col"><h4>Quick Links</h4><a href="about.html">About</a><a href="courses.html">Courses</a><a href="admissions.html">Admissions</a><a href="results.html">Results</a></div>
+    <div class="footer-col"><h4>Contact</h4><address>Main Road, Malkangiri, Odisha - 764048</address></div>
+    <div class="footer-col"><h4>Phones</h4><a href="tel:7684035626">7684035626</a><a href="tel:9937448007">9937448007</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2025 VHSS Malkangiri.</span><a href="admin/login.html">Admin Panel</a></div>
+</footer>
+
+<script src="js/data.js"></script>
+<script>
+let allToppers = getData('toppers');
+const grid = document.getElementById('toppersGrid');
+const empty = document.getElementById('emptyState');
+const filterBar = document.getElementById('filterBar');
+
+// Build year filters
+const years = [...new Set(allToppers.map(t => t.year))].sort((a,b) => b-a);
+years.forEach(y => {
+  const btn = document.createElement('button');
+  btn.className = 'filter-btn';
+  btn.textContent = y;
+  btn.setAttribute('data-filter', y);
+  btn.onclick = function() { filterToppers(y, this); };
+  filterBar.appendChild(btn);
+});
+
+function renderToppers(list) {
+  if (!list.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  grid.innerHTML = list.map(t => `
+    <div class="topper-card">
+      <div class="rank-badge">🏆 ${t.rank}</div>
+      <div class="topper-photo">${t.photo ? `<img src="${t.photo}" alt="${t.name}"/>` : '🏅'}</div>
+      <h3>${t.name}</h3>
+      <div class="topper-pct">${t.percentage}</div>
+      <div class="topper-marks">${t.marks || ''}</div>
+      <div class="topper-stream-tag">${t.stream}</div>
+      <div class="topper-year-tag">Class of ${t.year}</div>
+    </div>`).join('');
+}
+
+function filterToppers(filter, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered = filter === 'all' ? allToppers : allToppers.filter(t => t.year === filter);
+  renderToppers(filtered);
+}
+
+renderToppers(allToppers);
+</script>
+</body>
+</html>

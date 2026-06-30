@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Campus Life — VHSS Malkangiri</title>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.gal-item { border-radius: 12px; overflow: hidden; aspect-ratio: 4/3; background: var(--light-gray); position: relative; cursor: pointer; }
+.gal-item img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+.gal-item:hover img { transform: scale(1.05); }
+.gal-caption { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(6,18,64,0.85)); color: white; padding: 20px 14px 12px; font-size: 13px; font-weight: 600; opacity: 0; transition: var(--transition); }
+.gal-item:hover .gal-caption { opacity: 1; }
+.facilities-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.facility-card { background: white; border-radius: 14px; padding: 24px; box-shadow: var(--shadow); text-align: center; transition: var(--transition); }
+.facility-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.facility-icon { font-size: 40px; margin-bottom: 14px; }
+.facility-card h3 { font-size: 17px; color: var(--navy); margin-bottom: 8px; }
+.facility-card p { font-size: 13.5px; color: var(--mid-gray); line-height: 1.65; }
+/* Lightbox */
+.lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 9000; align-items: center; justify-content: center; padding: 20px; }
+.lightbox.open { display: flex; }
+.lightbox img { max-width: 90vw; max-height: 85vh; object-fit: contain; border-radius: 8px; }
+.lightbox-close { position: absolute; top: 20px; right: 24px; color: white; font-size: 32px; cursor: pointer; background: none; border: none; line-height: 1; }
+</style>
+</head>
+<body>
+<div class="top-strip"><span>📍 Main Road, Malkangiri, Odisha</span><div class="phones"><a href="tel:7684035626">📞 7684035626</a></div></div>
+<nav class="navbar">
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html"><div class="brand-logo">V</div><div class="brand-text"><div class="brand-name">Vivekananda Higher Secondary</div><div class="brand-sub">+2 Junior Science College • Malkangiri</div></div></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="courses.html">Courses</a>
+      <a href="admissions.html">Admissions</a><a href="faculty.html">Faculty</a>
+      <a href="results.html">Results</a><a href="campus.html" class="active">Campus</a><a href="contact.html">Contact</a>
+      <a href="admissions.html" class="btn-apply">Apply Now</a>
+    </div>
+    <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="breadcrumb"><a href="index.html">Home</a> › Campus Life</div>
+  <h1>Campus Life</h1>
+  <p>Life at VHSS goes beyond classrooms — sports, culture, residential life and lifelong friendships.</p>
+</div>
+
+<!-- Facilities -->
+<section class="section">
+  <div class="container">
+    <div class="section-header centered">
+      <div class="section-eyebrow">Infrastructure</div>
+      <h2 class="section-title">Our Facilities</h2>
+      <div class="divider center"></div>
+    </div>
+    <div class="facilities-grid">
+      <div class="facility-card"><div class="facility-icon">🏠</div><h3>Residential Hostel</h3><p>Safe, comfortable hostel with separate wings for boys and girls. Nutritious meals, 24/7 security and a home-like environment.</p></div>
+      <div class="facility-card"><div class="facility-icon">🔬</div><h3>Science Labs</h3><p>Fully equipped Physics, Chemistry and Biology laboratories for hands-on practical learning and experiment-based education.</p></div>
+      <div class="facility-card"><div class="facility-icon">💻</div><h3>Computer Lab</h3><p>Modern computer lab with internet connectivity. Students gain digital literacy alongside their core subjects.</p></div>
+      <div class="facility-card"><div class="facility-icon">📖</div><h3>Library</h3><p>Well-stocked library with NCERT, reference books, magazines, newspapers and competitive exam materials.</p></div>
+      <div class="facility-card"><div class="facility-icon">⚽</div><h3>Sports Ground</h3><p>Spacious sports ground for cricket, football, volleyball and athletics. Annual sports meet celebrated with enthusiasm.</p></div>
+      <div class="facility-card"><div class="facility-icon">🍽️</div><h3>Canteen & Mess</h3><p>Hygienic canteen serving nutritious meals. Hostel mess provides balanced diet to residential students daily.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Gallery -->
+<section class="section section-white">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Photo Gallery</div>
+      <h2 class="section-title">Campus Gallery</h2>
+      <div class="divider"></div>
+      <p class="section-desc">Glimpses of life at Vivekananda Higher Secondary — academics, events and campus moments.</p>
+    </div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+    <div class="empty-state" id="emptyGallery" style="display:none">
+      <div class="empty-icon">🖼️</div>
+      <p>Gallery photos will be added by admin soon. Check back later!</p>
+    </div>
+  </div>
+</section>
+
+<!-- Events -->
+<section class="section">
+  <div class="container">
+    <div class="section-header centered">
+      <div class="section-eyebrow">College Life</div>
+      <h2 class="section-title">Events & Activities</h2>
+      <div class="divider center"></div>
+    </div>
+    <div class="grid-3">
+      <div class="card" style="padding:24px;text-align:center"><div style="font-size:40px;margin-bottom:12px">🎭</div><h3 style="font-size:18px;color:var(--navy);margin-bottom:8px">Vivek Utsav</h3><p style="font-size:14px;color:var(--mid-gray)">Annual cultural festival celebrating Swami Vivekananda's birth anniversary with dance, drama, music and debate competitions.</p></div>
+      <div class="card" style="padding:24px;text-align:center"><div style="font-size:40px;margin-bottom:12px">🏃</div><h3 style="font-size:18px;color:var(--navy);margin-bottom:8px">Annual Sports Day</h3><p style="font-size:14px;color:var(--mid-gray)">Grand sports meet with track events, team sports and prize distribution. Encourages physical fitness and healthy competition.</p></div>
+      <div class="card" style="padding:24px;text-align:center"><div style="font-size:40px;margin-bottom:12px">🎓</div><h3 style="font-size:18px;color:var(--navy);margin-bottom:8px">Alumni Meet</h3><p style="font-size:14px;color:var(--mid-gray)">Annual reunion of VHSS alumni. Successful graduates inspire current students and share career guidance from their experiences.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <img id="lightboxImg" src="" alt="Gallery photo"/>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><div class="footer-brand-name">Vivekananda Higher Secondary +2 Junior Science College</div><p>Inspiring generations through quality education in Malkangiri.</p></div>
+    <div class="footer-col"><h4>Quick Links</h4><a href="about.html">About</a><a href="courses.html">Courses</a><a href="admissions.html">Admissions</a><a href="campus.html">Campus</a></div>
+    <div class="footer-col"><h4>Contact</h4><address>Main Road, Malkangiri, Odisha - 764048</address></div>
+    <div class="footer-col"><h4>Phones</h4><a href="tel:7684035626">7684035626</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2025 VHSS Malkangiri.</span><a href="admin/login.html">Admin Panel</a></div>
+</footer>
+<script src="js/data.js"></script>
+<script>
+const gallery = getData('gallery');
+const grid = document.getElementById('galleryGrid');
+const empty = document.getElementById('emptyGallery');
+if (!gallery.length) { empty.style.display = 'block'; }
+else {
+  grid.innerHTML = gallery.map(g => `
+    <div class="gal-item" onclick="openLightbox('${g.url}')">
+      <img src="${g.url}" alt="${g.caption||'Campus photo'}" loading="lazy"/>
+      <div class="gal-caption">${g.caption||''}</div>
+    </div>`).join('');
+}
+
+function openLightbox(src) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if (e.target === this) closeLightbox();
+});
+</script>
+</body>
+</html>

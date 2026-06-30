@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Manage Admissions — VHSS Admin</title>
+<link rel="stylesheet" href="../css/admin.css"/>
+<style>
+.doc-row { display: flex; align-items: center; gap: 10px; background: var(--off-white); padding: 10px 14px; border-radius: 8px; margin-bottom: 8px; }
+.doc-row input { flex: 1; border: none; background: transparent; font-size: 13.5px; outline: none; }
+.doc-row button { background: none; border: none; color: var(--red); cursor: pointer; font-size: 16px; }
+.step-edit-card { background: var(--off-white); border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+.step-edit-card .step-num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; background: var(--navy); color: white; border-radius: 50%; font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="brand-logo-wrap">V</div><div class="brand-title">VHSS Admin Panel</div><div class="brand-sub">Malkangiri, Odisha</div><span class="admin-badge">ADMIN</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="../index.html" target="_blank"><span class="nav-icon">🌐</span> View Website</a>
+      <div class="nav-section-label">Manage Content</div>
+      <a href="courses.html"><span class="nav-icon">📚</span> Courses</a>
+      <a href="toppers.html"><span class="nav-icon">🏆</span> Toppers & Results</a>
+      <a href="faculty.html"><span class="nav-icon">👨‍🏫</span> Faculty</a>
+      <a href="gallery.html"><span class="nav-icon">🖼️</span> Gallery</a>
+      <a href="news.html"><span class="nav-icon">📢</span> News & Events</a>
+      <a href="admissions.html" class="active"><span class="nav-icon">📋</span> Admissions</a>
+      <a href="stats.html"><span class="nav-icon">📊</span> Stats & Info</a>
+    </nav>
+    <div class="sidebar-footer"><a href="login.html" onclick="sessionStorage.removeItem('vhss_admin')">🚪 Logout</a></div>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div class="topbar-title">Manage Admissions</div>
+      <div class="topbar-right"><span>👤 <strong>Administrator</strong></span></div>
+    </div>
+    <div class="admin-content">
+      <div class="page-header">
+        <div><h1>Admissions Settings</h1><p>Edit important dates, required documents and the admission process steps.</p></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+        <!-- Important Dates -->
+        <div class="table-box" style="padding:22px">
+          <h2 style="font-size:15px;color:var(--navy);margin-bottom:16px;font-family:'Inter',sans-serif">📅 Important Dates</h2>
+          <div class="form-group"><label>Application Last Date</label><input type="text" id="lastDate" placeholder="30th June 2025"/></div>
+          <div class="form-group"><label>Classes Start Date</label><input type="text" id="startDate" placeholder="1st July 2025"/></div>
+          <button class="btn btn-navy" onclick="saveDates()">💾 Save Dates</button>
+        </div>
+
+        <!-- Documents -->
+        <div class="table-box" style="padding:22px">
+          <h2 style="font-size:15px;color:var(--navy);margin-bottom:16px;font-family:'Inter',sans-serif">📄 Required Documents</h2>
+          <div id="docsList"></div>
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <input type="text" id="newDoc" placeholder="Add new document requirement..." style="flex:1;padding:9px 12px;border:1.5px solid var(--light-gray);border-radius:7px;font-size:13px" onkeydown="if(event.key==='Enter')addDoc()"/>
+            <button class="btn btn-saffron btn-sm" onclick="addDoc()">+ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Process Steps -->
+      <div class="table-box" style="padding:22px;margin-top:20px">
+        <h2 style="font-size:15px;color:var(--navy);margin-bottom:16px;font-family:'Inter',sans-serif">🪜 Admission Process Steps</h2>
+        <div id="stepsList"></div>
+        <button class="btn btn-saffron" onclick="saveSteps()" style="margin-top:8px">💾 Save All Steps</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="../js/data.js"></script>
+<script>
+requireAdmin();
+const adm = getData('admissions');
+
+// Dates
+document.getElementById('lastDate').value = adm.lastDate;
+document.getElementById('startDate').value = adm.startDate;
+function saveDates() {
+  const data = getData('admissions');
+  data.lastDate = document.getElementById('lastDate').value.trim();
+  data.startDate = document.getElementById('startDate').value.trim();
+  setData('admissions', data);
+  showToast('Dates updated!');
+}
+
+// Documents
+function renderDocs() {
+  const data = getData('admissions');
+  const list = document.getElementById('docsList');
+  list.innerHTML = data.documents.map((d,i) => `
+    <div class="doc-row">
+      <span>✅</span><input type="text" value="${d}" onchange="updateDoc(${i}, this.value)"/>
+      <button onclick="removeDoc(${i})">✕</button>
+    </div>`).join('');
+}
+function updateDoc(i, val) {
+  const data = getData('admissions');
+  data.documents[i] = val;
+  setData('admissions', data);
+}
+function removeDoc(i) {
+  const data = getData('admissions');
+  data.documents.splice(i,1);
+  setData('admissions', data);
+  renderDocs();
+  showToast('Document removed.');
+}
+function addDoc() {
+  const input = document.getElementById('newDoc');
+  const val = input.value.trim();
+  if (!val) return;
+  const data = getData('admissions');
+  data.documents.push(val);
+  setData('admissions', data);
+  input.value = '';
+  renderDocs();
+  showToast('Document added!');
+}
+renderDocs();
+
+// Process Steps
+function renderSteps() {
+  const data = getData('admissions');
+  const list = document.getElementById('stepsList');
+  list.innerHTML = data.process.map((p,i) => `
+    <div class="step-edit-card">
+      <div class="step-num">${p.step}</div>
+      <div class="form-group" style="margin-bottom:8px"><label>Step Title</label><input type="text" value="${p.title}" id="stepTitle${i}"/></div>
+      <div class="form-group" style="margin-bottom:0"><label>Description</label><textarea id="stepDesc${i}" style="min-height:60px">${p.desc}</textarea></div>
+    </div>`).join('');
+}
+function saveSteps() {
+  const data = getData('admissions');
+  data.process = data.process.map((p,i) => ({
+    ...p,
+    title: document.getElementById(`stepTitle${i}`).value.trim(),
+    desc: document.getElementById(`stepDesc${i}`).value.trim()
+  }));
+  setData('admissions', data);
+  showToast('Process steps updated!');
+}
+renderSteps();
+</script>
+</body>
+</html>

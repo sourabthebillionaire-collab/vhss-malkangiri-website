@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admissions — VHSS Malkangiri</title>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+.process-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; position: relative; margin-bottom: 48px; }
+.process-steps::before { content: ''; position: absolute; top: 36px; left: 10%; right: 10%; height: 2px; background: var(--light-gray); z-index: 0; }
+.step-item { text-align: center; position: relative; z-index: 1; padding: 0 10px; }
+.step-circle { width: 72px; height: 72px; border-radius: 50%; background: var(--navy); color: white; font-size: 22px; font-weight: 900; font-family: 'Playfair Display',serif; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; border: 4px solid white; box-shadow: 0 4px 16px rgba(10,31,92,0.2); }
+.step-item h4 { font-size: 15px; color: var(--navy); margin-bottom: 6px; }
+.step-item p { font-size: 13px; color: var(--mid-gray); line-height: 1.6; }
+.fee-table { width: 100%; border-collapse: collapse; background: white; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); }
+.fee-table th { background: var(--navy); color: var(--saffron-light); padding: 14px 18px; text-align: left; font-size: 13px; letter-spacing: 0.5px; }
+.fee-table td { padding: 14px 18px; border-bottom: 1px solid var(--light-gray); font-size: 14px; }
+.fee-table tr:last-child td { border-bottom: none; }
+.fee-table tr:nth-child(even) td { background: var(--off-white); }
+.fee-stream { font-weight: 700; color: var(--navy); }
+.fee-amt { font-weight: 700; color: var(--saffron); }
+.doc-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.doc-item { display: flex; align-items: center; gap: 10px; background: white; padding: 12px 16px; border-radius: 10px; box-shadow: var(--shadow); font-size: 14px; }
+.doc-item::before { content: '✅'; font-size: 16px; }
+.enquiry-form { background: white; border-radius: 16px; padding: 32px; box-shadow: var(--shadow); }
+.important-dates { background: linear-gradient(135deg,var(--navy),var(--navy-light)); border-radius: 14px; padding: 28px; color: white; }
+.date-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 14px; }
+.date-row:last-child { border-bottom: none; }
+.date-row .label { color: rgba(255,255,255,0.7); }
+.date-row .val { color: var(--saffron-light); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="top-strip"><span>📍 Main Road, Malkangiri, Odisha</span><div class="phones"><a href="tel:7684035626">📞 7684035626</a></div></div>
+<nav class="navbar">
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html"><div class="brand-logo">V</div><div class="brand-text"><div class="brand-name">Vivekananda Higher Secondary</div><div class="brand-sub">+2 Junior Science College • Malkangiri</div></div></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="courses.html">Courses</a>
+      <a href="admissions.html" class="active">Admissions</a><a href="faculty.html">Faculty</a>
+      <a href="results.html">Results</a><a href="campus.html">Campus</a><a href="contact.html">Contact</a>
+      <a href="admissions.html" class="btn-apply">Apply Now</a>
+    </div>
+    <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="breadcrumb"><a href="index.html">Home</a> › Admissions</div>
+  <h1>Admissions 2025–26</h1>
+  <p>Begin your journey at VHSS — applications are open for all streams. Seats are limited.</p>
+</div>
+
+<section class="section">
+  <div class="container">
+    <!-- Process -->
+    <div class="section-header centered">
+      <div class="section-eyebrow">How to Apply</div>
+      <h2 class="section-title">Admission Process</h2>
+      <div class="divider center"></div>
+    </div>
+    <div class="process-steps" id="processSteps"></div>
+
+    <!-- Two Column -->
+    <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:32px;align-items:start">
+      <div>
+        <!-- Fee Table -->
+        <div class="section-header" style="margin-bottom:20px">
+          <div class="section-eyebrow">Fee Structure</div>
+          <h2 class="section-title" style="font-size:24px">Course Fees 2025–26</h2>
+          <div class="divider"></div>
+        </div>
+        <table class="fee-table" id="feeTable">
+          <thead><tr><th>Stream</th><th>Duration</th><th>Annual Fee</th><th>Seats</th></tr></thead>
+          <tbody id="feeBody"></tbody>
+        </table>
+        <p style="font-size:13px;color:var(--mid-gray);margin-top:12px">* Hostel fees are separate. Contact office for complete fee details including hostel charges.</p>
+
+        <!-- Documents -->
+        <div style="margin-top:32px">
+          <div class="section-eyebrow">Required Documents</div>
+          <h3 style="font-size:20px;color:var(--navy);margin:8px 0 16px;font-family:'Playfair Display',serif">Documents Needed</h3>
+          <div class="doc-list" id="docList"></div>
+        </div>
+      </div>
+
+      <div>
+        <!-- Important Dates -->
+        <div class="important-dates" style="margin-bottom:24px">
+          <h3 style="color:var(--saffron-light);font-size:18px;margin-bottom:16px">📅 Important Dates</h3>
+          <div id="importantDates"></div>
+        </div>
+
+        <!-- Enquiry Form -->
+        <div class="enquiry-form">
+          <h3 style="color:var(--navy);font-size:18px;margin-bottom:6px;font-family:'Playfair Display',serif">📩 Send an Enquiry</h3>
+          <p style="font-size:13.5px;color:var(--mid-gray);margin-bottom:20px">Fill this form and we'll get back to you within 24 hours.</p>
+          <div class="form-group"><label>Full Name *</label><input type="text" id="eq_name" placeholder="Your full name"/></div>
+          <div class="form-group"><label>Phone Number *</label><input type="tel" id="eq_phone" placeholder="10-digit mobile number"/></div>
+          <div class="form-group"><label>Stream Interested In</label>
+            <select id="eq_stream">
+              <option value="">Select stream</option>
+              <option>Science (PCM)</option><option>Science (PCB)</option><option>Commerce</option><option>Arts / Humanities</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Message / Question</label><textarea id="eq_msg" placeholder="Any specific questions about admission, hostel, fees..."></textarea></div>
+          <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="submitEnquiry()">Send Enquiry →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand"><div class="footer-brand-name">Vivekananda Higher Secondary +2 Junior Science College</div><p>Inspiring generations through quality education in Malkangiri.</p></div>
+    <div class="footer-col"><h4>Quick Links</h4><a href="about.html">About</a><a href="courses.html">Courses</a><a href="admissions.html">Admissions</a><a href="results.html">Results</a></div>
+    <div class="footer-col"><h4>Contact</h4><address>Main Road, Malkangiri, Odisha - 764048</address></div>
+    <div class="footer-col"><h4>Phones</h4><a href="tel:7684035626">7684035626</a><a href="tel:9937448007">9937448007</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2025 VHSS Malkangiri.</span><a href="admin/login.html">Admin Panel</a></div>
+</footer>
+<div id="toast" class="toast"></div>
+<script src="js/data.js"></script>
+<script>
+const adm = getData('admissions');
+const courses = getData('courses');
+
+// Process steps
+document.getElementById('processSteps').innerHTML = adm.process.map(p => `
+  <div class="step-item">
+    <div class="step-circle">${p.step}</div>
+    <h4>${p.title}</h4>
+    <p>${p.desc}</p>
+  </div>`).join('');
+
+// Fee table
+document.getElementById('feeBody').innerHTML = courses.map(c => `
+  <tr>
+    <td class="fee-stream">${c.icon} ${c.stream}</td>
+    <td>${c.duration}</td>
+    <td class="fee-amt">${c.fees}</td>
+    <td>${c.seats} seats</td>
+  </tr>`).join('');
+
+// Docs
+document.getElementById('docList').innerHTML = adm.documents.map(d => `<div class="doc-item">${d}</div>`).join('');
+
+// Important dates
+document.getElementById('importantDates').innerHTML = `
+  <div class="date-row"><span class="label">Application Start</span><span class="val">April 1, 2025</span></div>
+  <div class="date-row"><span class="label">Last Date</span><span class="val">${adm.lastDate}</span></div>
+  <div class="date-row"><span class="label">Classes Begin</span><span class="val">${adm.startDate}</span></div>
+  <div class="date-row"><span class="label">Office Hours</span><span class="val">Mon–Sat, 9AM–5PM</span></div>`;
+
+function submitEnquiry() {
+  const name = document.getElementById('eq_name').value.trim();
+  const phone = document.getElementById('eq_phone').value.trim();
+  if (!name || !phone) { showToast('Please enter your name and phone number.', 'error'); return; }
+  showToast(`Thank you ${name}! We'll contact you at ${phone} soon.`, 'success');
+  ['eq_name','eq_phone','eq_stream','eq_msg'].forEach(id => document.getElementById(id).value = '');
+}
+</script>
+</body>
+</html>

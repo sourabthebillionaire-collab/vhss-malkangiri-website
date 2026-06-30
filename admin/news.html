@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Manage News — VHSS Admin</title>
+<link rel="stylesheet" href="../css/admin.css"/>
+</head>
+<body>
+<div class="admin-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="brand-logo-wrap">V</div><div class="brand-title">VHSS Admin Panel</div><div class="brand-sub">Malkangiri, Odisha</div><span class="admin-badge">ADMIN</span></div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <a href="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="../index.html" target="_blank"><span class="nav-icon">🌐</span> View Website</a>
+      <div class="nav-section-label">Manage Content</div>
+      <a href="courses.html"><span class="nav-icon">📚</span> Courses</a>
+      <a href="toppers.html"><span class="nav-icon">🏆</span> Toppers & Results</a>
+      <a href="faculty.html"><span class="nav-icon">👨‍🏫</span> Faculty</a>
+      <a href="gallery.html"><span class="nav-icon">🖼️</span> Gallery</a>
+      <a href="news.html" class="active"><span class="nav-icon">📢</span> News & Events</a>
+      <a href="admissions.html"><span class="nav-icon">📋</span> Admissions</a>
+      <a href="stats.html"><span class="nav-icon">📊</span> Stats & Info</a>
+    </nav>
+    <div class="sidebar-footer"><a href="login.html" onclick="sessionStorage.removeItem('vhss_admin')">🚪 Logout</a></div>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <div class="topbar-title">Manage News & Events</div>
+      <div class="topbar-right"><span>👤 <strong>Administrator</strong></span></div>
+    </div>
+    <div class="admin-content">
+      <div class="page-header">
+        <div><h1>News & Announcements</h1><p>Manage the news ticker and announcement cards on the homepage.</p></div>
+        <button class="btn btn-navy btn-lg" onclick="openModal()">+ Add Announcement</button>
+      </div>
+
+      <div class="table-box">
+        <div class="table-top"><h2>All Announcements</h2><span id="newsCount" style="font-size:13px;color:var(--mid-gray)"></span></div>
+        <table>
+          <thead><tr><th>Title</th><th>Type</th><th>Date</th><th>Actions</th></tr></thead>
+          <tbody id="newsTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-hdr"><h2 id="modalTitle">Add Announcement</h2><button class="modal-close" onclick="closeModal()">×</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="editId"/>
+      <div class="form-group"><label>Title *</label><input type="text" id="f_title" placeholder="e.g. Admission Open 2025-26"/></div>
+      <div class="form-row">
+        <div class="form-group"><label>Type *</label>
+          <select id="f_type"><option>Admission</option><option>Result</option><option>Event</option><option>Academic</option><option>General</option></select>
+        </div>
+        <div class="form-group"><label>Date *</label><input type="date" id="f_date"/></div>
+      </div>
+      <div class="form-group"><label>Content *</label><textarea id="f_content" placeholder="Full announcement details..."></textarea></div>
+      <div style="display:flex;gap:10px;margin-top:4px">
+        <button class="btn btn-navy btn-lg" onclick="saveNews()" style="flex:1">💾 Save Announcement</button>
+        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="../js/data.js"></script>
+<script>
+requireAdmin();
+
+function renderTable() {
+  const news = getData('news').sort((a,b) => new Date(b.date) - new Date(a.date));
+  document.getElementById('newsCount').textContent = `${news.length} item(s)`;
+  const tbody = document.getElementById('newsTable');
+  if (!news.length) {
+    tbody.innerHTML = '<tr><td colspan="4"><div class="empty-state"><div class="icon">📢</div><p>No announcements yet.</p></div></td></tr>';
+    return;
+  }
+  tbody.innerHTML = news.map(n => `
+    <tr>
+      <td><strong style="color:var(--navy)">${n.title}</strong><div style="font-size:12px;color:var(--mid-gray);margin-top:2px">${n.content.substring(0,60)}...</div></td>
+      <td><span class="badge badge-saffron">${n.type}</span></td>
+      <td>${formatDate(n.date)}</td>
+      <td><div class="t-actions">
+        <button class="btn btn-sm btn-outline" onclick="editNews(${n.id})">✏️ Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteNews(${n.id})">🗑️</button>
+      </div></td>
+    </tr>`).join('');
+}
+
+function openModal(n = null) {
+  document.getElementById('modalTitle').textContent = n ? 'Edit Announcement' : 'Add Announcement';
+  document.getElementById('editId').value = n?.id || '';
+  document.getElementById('f_title').value = n?.title || '';
+  document.getElementById('f_type').value = n?.type || 'Admission';
+  document.getElementById('f_date').value = n?.date || new Date().toISOString().split('T')[0];
+  document.getElementById('f_content').value = n?.content || '';
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+
+function saveNews() {
+  const title = document.getElementById('f_title').value.trim();
+  const content = document.getElementById('f_content').value.trim();
+  if (!title || !content) { showToast('Title and content are required.', 'error'); return; }
+  const news = getData('news');
+  const editId = parseInt(document.getElementById('editId').value);
+  const obj = {
+    id: editId || genId(),
+    title, content,
+    type: document.getElementById('f_type').value,
+    date: document.getElementById('f_date').value
+  };
+  if (editId) {
+    const idx = news.findIndex(n => n.id === editId);
+    if (idx !== -1) news[idx] = obj;
+  } else {
+    news.push(obj);
+  }
+  setData('news', news);
+  showToast(editId ? 'Announcement updated!' : 'Announcement added!');
+  closeModal();
+  renderTable();
+}
+
+function editNews(id) {
+  const n = getData('news').find(n => n.id === id);
+  if (n) openModal(n);
+}
+
+function deleteNews(id) {
+  if (!confirm('Delete this announcement?')) return;
+  setData('news', getData('news').filter(n => n.id !== id));
+  showToast('Announcement deleted.');
+  renderTable();
+}
+
+renderTable();
+</script>
+</body>
+</html>
