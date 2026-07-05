@@ -96,17 +96,46 @@ function renderGallery() {
   if (!gallery.length) { grid.innerHTML=''; empty.style.display='block'; return; }
   empty.style.display = 'none';
   grid.innerHTML = gallery.map(g => `
-    <div class="gal-item">
+    <div class="gal-item" data-id="${g.id}">
       <img src="${g.url}" alt="${g.caption}"/>
+      <input type="text" class="caption-input" value="${g.caption}" data-id="${g.id}" style="width:100%;margin-top:4px;font-size:13px;"/>
       <button class="del-btn" onclick="deletePhoto(${g.id})">×</button>
     </div>`).join('');
+  // Attach caption change listeners
+  document.querySelectorAll('.caption-input').forEach(inp => {
+    inp.addEventListener('change', e => {
+      const id = parseInt(e.target.dataset.id);
+      const newCaption = e.target.value.trim();
+      const galleryData = getData('gallery');
+      const item = galleryData.find(it => it.id === id);
+      if (item) { item.caption = newCaption; setData('gallery', galleryData); showToast('Caption updated.'); }
+    });
+  });
 }
 
 function deletePhoto(id) {
-  if (!confirm('Delete this photo?')) return;
-  setData('gallery', getData('gallery').filter(g => g.id !== id));
-  showToast('Photo deleted.');
-  renderGallery();
+  const row = document.querySelector(`button[onclick=\\"deletePhoto(${id})\\"]`).closest('tr') || document.getElementById('galleryGrid');
+  // Find the gallery item element
+  const card = document.querySelector(`.gal-item[data-id='${id}']`);
+  if (!card) return;
+  // If a confirmation row already exists, do nothing
+  if (card.nextElementSibling && card.nextElementSibling.classList.contains('delete-confirm')) return;
+  const confirmRow = document.createElement('div');
+  confirmRow.className = 'delete-confirm';
+  confirmRow.innerHTML = `<div style="background:#ffebeb;padding:8px;margin:4px 0;">
+    <span>Are you sure?</span>
+    <button class="yes" style="margin-left:8px;">✅ Yes, Delete</button>
+    <button class="no" style="margin-left:4px;">❌ Cancel</button>
+  </div>`;
+  card.parentNode.insertBefore(confirmRow, card.nextSibling);
+  confirmRow.querySelector('.yes').addEventListener('click', () => {
+    setData('gallery', getData('gallery').filter(g => g.id !== id));
+    showToast('Photo deleted.');
+    renderGallery();
+  });
+  confirmRow.querySelector('.no').addEventListener('click', () => {
+    confirmRow.remove();
+  });
 }
 
 renderGallery();

@@ -182,13 +182,41 @@ function editTopper(id) {
 }
 
 function deleteTopper(id) {
-  if (!confirm('Delete this topper record?')) return;
-  setData('toppers', getData('toppers').filter(t => t.id !== id));
-  showToast('Topper deleted.');
-  renderTable();
+  const row = document.querySelector(`button[onclick=\"deleteTopper(${id})\"]`).closest('tr');
+  if (!row) return;
+  // If confirmation row already present, do nothing
+  if (row.nextElementSibling && row.nextElementSibling.classList.contains('delete-confirm')) return;
+  const confirmRow = document.createElement('tr');
+  confirmRow.className = 'delete-confirm';
+  confirmRow.innerHTML = `<td colspan="7" style="background:#ffebeb;padding:8px"><span>Are you sure?</span> <button class="yes">✅ Yes, Delete</button> <button class="no">❌ Cancel</button></td>`;
+  row.parentNode.insertBefore(confirmRow, row.nextSibling);
+  confirmRow.querySelector('.yes').addEventListener('click', () => {
+    setData('toppers', getData('toppers').filter(t => t.id !== id));
+    showToast('Topper deleted.');
+    renderTable();
+  });
+  confirmRow.querySelector('.no').addEventListener('click', () => {
+    confirmRow.remove();
+  });
 }
 
 renderTable();
+// Ctrl+S shortcut
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      e.preventDefault();
+      if (typeof saveTopper === 'function') { saveTopper(); }
+      if (typeof saveCourse === 'function') { saveCourse(); }
+      if (typeof saveFaculty === 'function') { saveFaculty(); }
+      if (typeof saveNews === 'function') { saveNews(); }
+      if (typeof saveDates === 'function') { saveDates(); }
+      if (typeof saveSteps === 'function') { saveSteps(); }
+      if (typeof saveStats === 'function') { saveStats(); }
+      if (typeof saveContact === 'function') { saveContact(); }
+      if (typeof savePlacements === 'function') { savePlacements(); }
+      showToast('💾 Saved with Ctrl+S');
+    }
+  });
 </script>
 </body>
 </html>

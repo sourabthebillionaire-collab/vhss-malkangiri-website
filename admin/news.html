@@ -136,10 +136,21 @@ function editNews(id) {
 }
 
 function deleteNews(id) {
-  if (!confirm('Delete this announcement?')) return;
-  setData('news', getData('news').filter(n => n.id !== id));
-  showToast('Announcement deleted.');
-  renderTable();
+  const row = document.querySelector(`button[onclick=\"deleteNews(${id})\"]`).closest('tr');
+  if (!row) return;
+  if (row.nextElementSibling && row.nextElementSibling.classList.contains('delete-confirm')) return;
+  const confirmRow = document.createElement('tr');
+  confirmRow.className = 'delete-confirm';
+  confirmRow.innerHTML = `<td colspan="4" style="background:#ffebeb;padding:8px"><span>Are you sure?</span> <button class="yes">✅ Yes, Delete</button> <button class="no">❌ Cancel</button></td>`;
+  row.parentNode.insertBefore(confirmRow, row.nextSibling);
+  confirmRow.querySelector('.yes').addEventListener('click', () => {
+    setData('news', getData('news').filter(n => n.id !== id));
+    showToast('Announcement deleted.');
+    renderTable();
+  });
+  confirmRow.querySelector('.no').addEventListener('click', () => {
+    confirmRow.remove();
+  });
 }
 
 renderTable();

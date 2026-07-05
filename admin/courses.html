@@ -84,7 +84,7 @@
         <input type="hidden" id="f_careers"/>
       </div>
       <div style="display:flex;gap:10px;margin-top:4px">
-        <button class="btn btn-navy btn-lg" onclick="saveCourse()" style="flex:1">💾 Save Course</button>
+        <button class="btn btn-navy btn-lg save-btn" onclick="saveCourse()" style="flex:1">💾 Save Course</button>
         <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
       </div>
     </div>
@@ -206,14 +206,42 @@ function editCourse(id) {
 }
 
 function deleteCourse(id) {
-  if (!confirm('Delete this course? This cannot be undone.')) return;
-  const courses = getData('courses').filter(c => c.id !== id);
-  setData('courses', courses);
-  showToast('Course deleted.');
-  renderTable();
+  const row = document.querySelector(`button[onclick="deleteCourse(${id})"]`).closest('tr');
+  if (!row) return;
+  // If confirmation row already present, do nothing
+  if (row.nextElementSibling && row.nextElementSibling.classList.contains('delete-confirm')) return;
+  const confirmRow = document.createElement('tr');
+  confirmRow.className = 'delete-confirm';
+  confirmRow.innerHTML = `<td colspan="7" style="background:#ffebeb;padding:8px"><span>Are you sure?</span> <button class="yes">✅ Yes, Delete</button> <button class="no">❌ Cancel</button></td>`;
+  row.parentNode.insertBefore(confirmRow, row.nextSibling);
+  confirmRow.querySelector('.yes').addEventListener('click', () => {
+    const courses = getData('courses').filter(c => c.id !== id);
+    setData('courses', courses);
+    showToast('Course deleted.');
+    renderTable();
+  });
+  confirmRow.querySelector('.no').addEventListener('click', () => {
+    confirmRow.remove();
+  });
 }
 
 renderTable();
+// Ctrl+S shortcut
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      e.preventDefault();
+      if (typeof saveCourse === 'function') { saveCourse(); }
+      if (typeof saveTopper === 'function') { saveTopper(); }
+      if (typeof saveFaculty === 'function') { saveFaculty(); }
+      if (typeof saveNews === 'function') { saveNews(); }
+      if (typeof saveDates === 'function') { saveDates(); }
+      if (typeof saveSteps === 'function') { saveSteps(); }
+      if (typeof saveStats === 'function') { saveStats(); }
+      if (typeof saveContact === 'function') { saveContact(); }
+      if (typeof savePlacements === 'function') { savePlacements(); }
+      showToast('💾 Saved with Ctrl+S');
+    }
+  });
 </script>
 </body>
 </html>
