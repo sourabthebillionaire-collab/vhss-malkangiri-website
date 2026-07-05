@@ -39,6 +39,8 @@
       <div class="topbar-right">
         <span>👤 <strong>Administrator</strong></span>
         <span id="currentDate"></span>
+        <span id="liveClock" class="live-clock"></span>
+        <span id="lastUpdated" class="last-updated" style="margin-left:12px;color:var(--mid-gray);font-size:0.9rem;"></span>
       </div>
     </div>
 
@@ -85,37 +87,6 @@
 
 <div id="toast" class="toast"></div>
 <script src="../js/data.js"></script>
-<script>
-requireAdmin();
-
-document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-IN', { weekday:'short', day:'numeric', month:'long', year:'numeric' });
-
-// Stat cards
-const courses = getData('courses');
-const toppers = getData('toppers');
-const faculty = getData('faculty');
-const gallery = getData('gallery');
-const news = getData('news');
-
-document.getElementById('statCards').innerHTML = `
-  <div class="stat-card"><div class="stat-icon s1">📚</div><div><div class="stat-val">${courses.length}</div><div class="stat-lbl">Courses</div></div></div>
-  <div class="stat-card"><div class="stat-icon s2">🏆</div><div><div class="stat-val">${toppers.length}</div><div class="stat-lbl">Toppers</div></div></div>
-  <div class="stat-card"><div class="stat-icon s3">👨‍🏫</div><div><div class="stat-val">${faculty.length}</div><div class="stat-lbl">Faculty</div></div></div>
-  <div class="stat-card"><div class="stat-icon s4">🖼️</div><div><div class="stat-val">${gallery.length}</div><div class="stat-lbl">Gallery Photos</div></div></div>`;
-
-// Recent news
-const tbody = document.getElementById('recentNews');
-if (!news.length) {
-  tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--mid-gray);padding:24px">No announcements yet.</td></tr>';
-} else {
-  tbody.innerHTML = news.slice(0,5).map(n => `
-    <tr>
-      <td style="font-weight:600;color:var(--navy)">${n.title}</td>
-      <td><span class="badge badge-saffron">${n.type}</span></td>
-      <td style="color:var(--mid-gray)">${formatDate(n.date)}</td>
-      <td><a href="news.html" class="btn btn-sm btn-outline">Edit</a></td>
-    </tr>`).join('');
-}
-</script>
+<script src="../js/admin.js"></script>
 </body>
 </html>

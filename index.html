@@ -149,6 +149,7 @@
 </style>
 </head>
 <body>
+    <div id="preloader">VHSS</div>
 
 <!-- Top Strip -->
 <div class="top-strip">
@@ -210,7 +211,7 @@
       </div>
     </div>
     <div class="hero-right">
-      <div class="hero-card">
+      <div class="hero-card floating">
         <div class="hero-card-title">Available Streams</div>
         <div id="heroStreams"></div>
         <a href="admissions.html" class="admission-cta">🎓 Apply Now — Seats Filling Fast</a>
@@ -222,11 +223,11 @@
 <!-- Stats Bar -->
 <div class="stat-bar">
   <div class="container">
-    <div class="stat-item"><div class="stat-number" id="s1">—</div><div class="stat-label">Students</div></div>
-    <div class="stat-item"><div class="stat-number" id="s2">—</div><div class="stat-label">Faculty</div></div>
-    <div class="stat-item"><div class="stat-number" id="s3">—</div><div class="stat-label">Pass Rate</div></div>
-    <div class="stat-item"><div class="stat-number" id="s4">—</div><div class="stat-label">Experience</div></div>
-    <div class="stat-item"><div class="stat-number" id="s5">—</div><div class="stat-label">Streams</div></div>
+    <div class="stat-item"><div class="stat-number" id="s1" data-target="1800" data-suffix="+">0</div><div class="stat-label">Students</div></div>
+    <div class="stat-item"><div class="stat-number" id="s2" data-target="40" data-suffix="+">0</div><div class="stat-label">Faculty</div></div>
+    <div class="stat-item"><div class="stat-number" id="s3" data-target="97" data-suffix="%">0%</div><div class="stat-label">Pass Rate</div></div>
+    <div class="stat-item"><div class="stat-number" id="s4" data-target="20" data-suffix="+ Yrs">0</div><div class="stat-label">Experience</div></div>
+    <div class="stat-item"><div class="stat-number" id="s5" data-target="4">0</div><div class="stat-label">Streams</div></div>
   </div>
 </div>
 
@@ -235,17 +236,17 @@
   <div class="container">
     <div class="section-header centered">
       <div class="section-eyebrow">Why Choose Us</div>
-      <h2 class="section-title">The VHSS Advantage</h2>
+      <h2 class="section-title" data-animate="heading">The VHSS Advantage</h2>
       <div class="divider center"></div>
       <p class="section-desc">Inspired by the teachings of Swami Vivekananda — we nurture not just students, but future leaders of Odisha.</p>
     </div>
     <div class="why-grid">
-      <div class="why-card"><div class="why-icon">🏠</div><h3>Residential Campus</h3><p>Safe, structured residential facility with separate hostels, nutritious meals, and 24/7 supervision for students from across the district.</p></div>
-      <div class="why-card"><div class="why-icon">📚</div><h3>Expert Faculty</h3><p>Highly qualified and experienced teachers dedicated to academic excellence. Regular doubt sessions, extra classes and personal mentorship.</p></div>
-      <div class="why-card"><div class="why-icon">🏆</div><h3>Outstanding Results</h3><p>Consistent 97%+ pass rate in CHSE Odisha. Multiple district toppers and state rank holders every year across all streams.</p></div>
-      <div class="why-card"><div class="why-icon">🔬</div><h3>Modern Labs</h3><p>Well-equipped Physics, Chemistry, Biology and Computer labs. Practical learning that goes beyond textbooks.</p></div>
-      <div class="why-card"><div class="why-icon">🎯</div><h3>Competitive Exam Prep</h3><p>Special coaching for JEE, NEET, CLAT and OAS integrated with regular curriculum. Students make it to top institutions nationwide.</p></div>
-      <div class="why-card"><div class="why-icon">⚽</div><h3>Sports & Culture</h3><p>Annual sports meet, cultural festivals, debates and NSS activities. Holistic development in the spirit of Swami Vivekananda.</p></div>
+      <div class="why-card" data-animate="card"><div class="why-icon">🏠</div><h3>Residential Campus</h3><p>Safe, structured residential facility with separate hostels, nutritious meals, and 24/7 supervision for students from across the district.</p></div>
+      <div class="why-card" data-animate="card"><div class="why-icon">📚</div><h3>Expert Faculty</h3><p>Highly qualified and experienced teachers dedicated to academic excellence. Regular doubt sessions, extra classes and personal mentorship.</p></div>
+      <div class="why-card" data-animate="card"><div class="why-icon">🏆</div><h3>Outstanding Results</h3><p>Consistent 97%+ pass rate in CHSE Odisha. Multiple district toppers and state rank holders every year across all streams.</p></div>
+      <div class="why-card" data-animate="card"><div class="why-icon">🔬</div><h3>Modern Labs</h3><p>Well-equipped Physics, Chemistry, Biology and Computer labs. Practical learning that goes beyond textbooks.</p></div>
+      <div class="why-card" data-animate="card"><div class="why-icon">🎯</div><h3>Competitive Exam Prep</h3><p>Special coaching for JEE, NEET, CLAT and OAS integrated with regular curriculum. Students make it to top institutions nationwide.</p></div>
+      <div class="why-card" data-animate="card"><div class="why-icon">⚽</div><h3>Sports & Culture</h3><p>Annual sports meet, cultural festivals, debates and NSS activities. Holistic development in the spirit of Swami Vivekananda.</p></div>
     </div>
   </div>
 </section>
@@ -255,7 +256,7 @@
   <div class="container">
     <div class="section-header">
       <div class="section-eyebrow">Latest Updates</div>
-      <h2 class="section-title">News & Announcements</h2>
+      <h2 class="section-title" data-animate="heading">News & Announcements</h2>
       <div class="divider"></div>
     </div>
     <div class="news-grid" id="newsGrid"></div>
@@ -267,7 +268,7 @@
   <div class="container">
     <div class="section-header centered">
       <div class="section-eyebrow">Student Excellence</div>
-      <h2 class="section-title">Our Recent Toppers</h2>
+      <h2 class="section-title" data-animate="heading">Our Recent Toppers</h2>
       <div class="divider center"></div>
       <p class="section-desc">These bright minds made Malkangiri proud. See all toppers and year-wise results.</p>
     </div>
@@ -320,7 +321,9 @@
 </footer>
 
 <div id="toast" class="toast"></div>
+    <button id="backToTop" aria-label="Back to top">&#8593;</button>
 <script src="js/data.js"></script>
+<script src="js/homepage.js" defer></script>
 <script>
 // Load ticker
 const news = getData('news');
@@ -331,7 +334,16 @@ if (news.length) {
 
 // Load stats
 const stats = getData('stats');
-document.getElementById('s1').textContent = stats.students;
+document.getElementById('s1').dataset.target = parseInt(stats.students.replace(/[^0-9]/g,''));
+document.getElementById('s1').textContent = '0';
+document.getElementById('s2').dataset.target = parseInt(stats.faculty.replace(/[^0-9]/g,''));
+document.getElementById('s2').textContent = '0';
+document.getElementById('s3').dataset.target = parseInt(stats.passRate.replace(/[^0-9]/g,''));
+document.getElementById('s3').textContent = '0%';
+document.getElementById('s4').dataset.target = parseInt(stats.experience.replace(/[^0-9]/g,''));
+document.getElementById('s4').textContent = '0';
+document.getElementById('s5').dataset.target = parseInt(stats.streams.replace(/[^0-9]/g,''));
+document.getElementById('s5').textContent = '0';
 document.getElementById('s2').textContent = stats.faculty;
 document.getElementById('s3').textContent = stats.passRate;
 document.getElementById('s4').textContent = stats.experience;
@@ -355,7 +367,7 @@ const newsGrid = document.getElementById('newsGrid');
 const newsItems = news.slice(0,3);
 if (newsItems.length) {
   newsGrid.innerHTML = newsItems.map(n => `
-    <div class="news-card">
+    <div class="news-card" data-animate="card">
       <div class="news-type-bar"></div>
       <div class="news-body">
         <div class="news-meta">
@@ -376,7 +388,7 @@ const strip = document.getElementById('topperStrip');
 const recentToppers = toppers.slice(0,4);
 if (recentToppers.length) {
   strip.innerHTML = recentToppers.map(t => `
-    <div class="topper-card">
+    <div class="topper-card" data-animate="card">
       ${t.photo ? `<img class="topper-img" src="${t.photo}" alt="${t.name}"/>` : `<div class="topper-avatar">🏆</div>`}
       <h4>${t.name}</h4>
       <div class="topper-pct">${t.percentage}</div>
@@ -393,5 +405,6 @@ const si = getData('siteInfo');
 document.getElementById('footerPhones').innerHTML = si.phones.slice(0,3).map(p => `<a href="tel:${p}">📞 ${p}</a>`).join('');
 document.getElementById('footerAddress').innerHTML = `${si.address}<br>${si.email}`;
 </script>
+<button id="backToTop" aria-label="Back to top">↑</button>
 </body>
 </html>

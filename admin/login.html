@@ -26,7 +26,7 @@ body { display: flex; align-items: center; justify-content: center; min-height: 
 .hint-box { background: var(--off-white); border-radius: 8px; padding: 12px 14px; font-size: 12.5px; color: var(--mid-gray); margin-top: 20px; border-left: 3px solid var(--saffron); }
 </style>
 </head>
-<body>
+<body class="login-bg">
 <div class="login-card">
   <div class="login-logo">
     <div class="logo-circle">V</div>
@@ -36,10 +36,11 @@ body { display: flex; align-items: center; justify-content: center; min-height: 
   </div>
   <div class="login-form">
     <div class="error-msg" id="errMsg">❌ Incorrect password. Please try again.</div>
+    <div id="capsWarning" class="caps-warning hidden">Caps Lock is ON</div>
     <div class="form-group">
       <label>Admin Password</label>
       <div class="pass-wrap">
-        <input type="password" id="passInput" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')doLogin()"/>
+        <input type="password" id="password" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')doLogin()"/>
         <button class="toggle-pass" onclick="togglePass()" id="toggleBtn">👁️</button>
       </div>
     </div>
@@ -53,29 +54,6 @@ body { display: flex; align-items: center; justify-content: center; min-height: 
 </div>
 
 <script src="../js/data.js"></script>
-<script>
-// Redirect if already logged in
-if (isAdminLoggedIn()) window.location.href = 'dashboard.html';
-
-function doLogin() {
-  const pass = document.getElementById('passInput').value;
-  const err = document.getElementById('errMsg');
-  if (adminLogin(pass)) {
-    window.location.href = 'dashboard.html';
-  } else {
-    err.classList.add('show');
-    document.getElementById('passInput').value = '';
-    document.getElementById('passInput').focus();
-    setTimeout(() => err.classList.remove('show'), 3000);
-  }
-}
-
-function togglePass() {
-  const inp = document.getElementById('passInput');
-  const btn = document.getElementById('toggleBtn');
-  if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
-  else { inp.type = 'password'; btn.textContent = '👁️'; }
-}
-</script>
+<script src="../js/admin.js"></script>
 </body>
 </html>

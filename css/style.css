@@ -411,3 +411,153 @@ footer {
   .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
   .top-strip { display: none; }
 }
+/* ---- NEW HOMEPAGE ENHANCEMENTS ---- */
+
+/* Preloader */
+#preloader {
+  position: fixed;
+  inset: 0;
+  background: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--saffron);
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+#preloader.hide { opacity: 0; pointer-events: none; }
+
+/* Back to Top button */
+#backToTop {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  background: var(--saffron);
+  color: var(--white);
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  box-shadow: var(--shadow);
+  z-index: 1000;
+}
+#backToTop.show { opacity: 1; pointer-events: auto; }
+
+/* Hero gradient animation */
+@keyframes heroGradient {
+  0%   { background: linear-gradient(140deg, #0a1f5c 0%, #162d7a 55%, #061240 100%); }
+  33%  { background: linear-gradient(140deg, #162d7a 0%, #0a1f5c 55%, #1a2e6a 100%); }
+  66%  { background: linear-gradient(140deg, #061240 0%, #0a1f5c 55%, #162d7a 100%); }
+  100% { background: linear-gradient(140deg, #0a1f5c 0%, #162d7a 55%, #061240 100%); }
+}
+.hero { animation: heroGradient 15s infinite linear; }
+
+/* Hero dot pattern */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 30px 30px;
+  opacity: 0.6;
+  animation: moveDots 20s linear infinite;
+}
+@keyframes moveDots {
+  from { background-position: 0 0; }
+  to { background-position: 30px 30px; }
+}
+
+/* Floating hero card */
+@keyframes floatCard {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.hero-card.floating { animation: floatCard 6s ease-in-out infinite; }
+
+/* Scroll animations */
+[data-animate="heading"], [data-animate="card"] {
+  opacity: 0;
+}
+[data-animate="heading"] { transform: translateX(-30px); }
+[data-animate="card"] { transform: translateY(20px); }
+[data-animate="heading"].animate-slide-in,
+[data-animate="card"].animate-fade-up {
+  opacity: 1;
+  transform: none;
+  transition: all 0.6s ease;
+} 
+
+/* ---- RESULTS PAGE ENHANCEMENTS ---- */
+
+/* Hall of Fame banner */
+.hall-of-fame-banner {
+  background: linear-gradient(135deg, #ffd700, #ffb700);
+  color: var(--navy);
+  text-align: center;
+  padding: 40px 0;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.hall-of-fame-banner .banner-title {
+  font-size: 2.8rem;
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.hall-of-fame-banner .trophy-icon { font-size: 2.2rem; }
+.hall-of-fame-banner .banner-motto { font-size: 1.1rem; margin-top: 8px; color: rgba(0,0,0,0.6); font-family: 'Inter', sans-serif; }
+
+/* Medal emoji */
+.medal-emoji { font-size: 1.5rem; display: block; margin: 4px auto; }
+
+/* Special badge */
+.badge-special {
+  position: absolute;
+  top: 48px;
+  right: 16px;
+  background: gold;
+  color: var(--navy);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+  box-shadow: 0 0 6px rgba(255,215,0,0.8);
+}
+
+/* Glowing gold border for top card each year */
+@keyframes glowGold {
+  0%,100% { box-shadow: 0 0 8px 2px rgba(255,215,0,0.6); }
+  50% { box-shadow: 0 0 12px 4px rgba(255,215,0,1); }
+}
+.topper-card[data-year]:first-child {
+  animation: glowGold 3s infinite;
+  border: 2px solid gold;
+}
+
+/* Trophy display (percentage) */
+.trophy-display { font-size: 2.4rem; font-weight: 900; color: var(--saffron); font-family: 'Playfair Display', serif; margin: 8px 0; }
+
+/* Result stat cards */
+.result-stat { border-left: 4px solid var(--saffron); position: relative; overflow: hidden; }
+.result-stat .stat-icon { font-size: 2rem; display: block; margin-bottom: 4px; }
+.result-stat .val { font-size: 2.2rem; }
+
+/* Filter tab underline */
+.filter-bar { position: relative; }
+.tab-underline { position: absolute; bottom: -2px; height: 3px; background: var(--saffron); transition: left 0.3s ease, width 0.3s ease; }
+
+/* Empty state */
+.empty-illustration { font-size: 4rem; text-align: center; margin-bottom: 12px; }
+.empty-msg { text-align: center; font-size: 1rem; color: var(--mid-gray); }

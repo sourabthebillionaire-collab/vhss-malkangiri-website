@@ -42,6 +42,14 @@
 </style>
 </head>
 <body>
+    <div id="preloader">VHSS</div>
+    <!-- Hall of Fame Banner -->
+    <section class="hall-of-fame-banner" data-animate="heading">
+      <div class="container">
+        <h2 class="banner-title"><span class="trophy-icon">🏆</span> Hall of Fame</h2>
+        <p class="banner-motto">ଉତ୍କର୍ଷ ହେଉଛି ସ୍ୱପ୍ନର ସଫଳତା</p>
+      </div>
+    </section>
 <div class="top-strip">
   <span>📍 Main Road, Malkangiri, Odisha</span>
   <div class="phones"><a href="tel:7684035626">📞 7684035626</a></div>
@@ -69,23 +77,43 @@
   <div class="container">
     <!-- Result Stats -->
     <div class="result-stat-row">
-      <div class="result-stat"><div class="val">97%</div><div class="lbl">Pass Rate 2024</div></div>
-      <div class="result-stat"><div class="val">18</div><div class="lbl">Students Above 90%</div></div>
-      <div class="result-stat"><div class="val">5+</div><div class="lbl">District Toppers</div></div>
-      <div class="result-stat"><div class="val">2</div><div class="lbl">State Rank Holders</div></div>
+        <div class="tab-underline" style="display:none;"></div>
+      <div class="result-stat">
+        <span class="stat-icon">🏆</span>
+        <div class="val" data-target="97">0%</div>
+        <div class="lbl">Pass Rate 2024</div>
+      </div>
+      <div class="result-stat">
+        <span class="stat-icon">👨‍🎓</span>
+        <div class="val" data-target="18">0</div>
+        <div class="lbl">Students Above 90%</div>
+      </div>
+      <div class="result-stat">
+        <span class="stat-icon">🥇</span>
+        <div class="val" data-target="5">0</div>
+        <div class="lbl">District Toppers</div>
+      </div>
+      <div class="result-stat">
+        <span class="stat-icon">🏅</span>
+        <div class="val" data-target="2">0</div>
+        <div class="lbl">State Rank Holders</div>
+      </div>
     </div>
 
     <!-- Filter -->
     <div class="section-header">
-      <div class="section-eyebrow">Hall of Fame</div>
-      <h2 class="section-title">Our Toppers</h2>
+      <div class="section-eyebrow" data-animate="heading">Hall of Fame</div>
+      <h2 class="section-title" data-animate="heading">Our Toppers</h2>
       <div class="divider"></div>
     </div>
     <div class="filter-bar" id="filterBar">
       <button class="filter-btn active" data-filter="all" onclick="filterToppers('all',this)">All Years</button>
     </div>
     <div class="toppers-grid" id="toppersGrid"></div>
-    <div class="empty-state" id="emptyState" style="display:none"><div class="empty-icon">🏆</div><p>No toppers added yet. Admin can add topper records and photos.</p></div>
+    <div class="empty-state" id="emptyState" style="display:none">
+        <div class="empty-illustration">🔍</div>
+        <p class="empty-msg">No toppers found for this year yet – keep working hard!</p>
+      </div>
   </div>
 </section>
 
@@ -100,6 +128,7 @@
 </footer>
 
 <script src="js/data.js"></script>
+<script src="js/homepage.js" defer></script>
 <script>
 let allToppers = getData('toppers');
 const grid = document.getElementById('toppersGrid');
@@ -108,28 +137,47 @@ const filterBar = document.getElementById('filterBar');
 
 // Build year filters
 const years = [...new Set(allToppers.map(t => t.year))].sort((a,b) => b-a);
+// Count toppers per year for badge
+const yearCounts = years.reduce((acc, y) => {
+  acc[y] = allToppers.filter(t => t.year === y).length;
+  return acc;
+}, {});
 years.forEach(y => {
   const btn = document.createElement('button');
   btn.className = 'filter-btn';
-  btn.textContent = y;
-  btn.setAttribute('data-filter', y);
+  btn.textContent = `${y} (${yearCounts[y]})`;
+  btn.dataset.filter = y;
   btn.onclick = function() { filterToppers(y, this); };
   filterBar.appendChild(btn);
 });
+// Add underline element for tab animation
+const underline = document.createElement('div');
+underline.className = 'tab-underline';
+filterBar.appendChild(underline);
+function updateUnderline(activeBtn) {
+  underline.style.width = `${activeBtn.offsetWidth}px`;
+  underline.style.left = `${activeBtn.offsetLeft}px`;
+}
+// Initialize underline on load
+const initBtn = filterBar.querySelector('.filter-btn.active') || filterBar.querySelector('.filter-btn');
+if (initBtn) updateUnderline(initBtn);
+
 
 function renderToppers(list) {
   if (!list.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
   empty.style.display = 'none';
   grid.innerHTML = list.map(t => `
-    <div class="topper-card">
-      <div class="rank-badge">🏆 ${t.rank}</div>
-      <div class="topper-photo">${t.photo ? `<img src="${t.photo}" alt="${t.name}"/>` : '🏅'}</div>
-      <h3>${t.name}</h3>
-      <div class="topper-pct">${t.percentage}</div>
-      <div class="topper-marks">${t.marks || ''}</div>
-      <div class="topper-stream-tag">${t.stream}</div>
-      <div class="topper-year-tag">Class of ${t.year}</div>
-    </div>`).join('');
+    <div class="topper-card" data-animate="card" data-year="${t.year}">
+        <div class="rank-badge">🏆 ${t.rank}</div>
+        ${t.rank === 1 ? '<span class="medal-emoji">🥇</span>' : t.rank === 2 ? '<span class="medal-emoji">🥈</span>' : t.rank === 3 ? '<span class="medal-emoji">🥉</span>' : ''}
+        ${/District/.test(t.rank) ? '<span class="badge-special">District Topper</span>' : /State/.test(t.rank) ? '<span class="badge-special">State Rank</span>' : ''}
+        <div class="topper-photo">${t.photo ? `<img src="${t.photo}" alt="${t.name}"/>` : '🏅'}</div>
+        <h3>${t.name}</h3>
+        <div class="topper-pct trophy-display" data-target="${t.percentage.replace(/[^0-9]/g,'')}">0%</div>
+        <div class="topper-marks">${t.marks || ''}</div>
+        <div class="topper-stream-tag">${t.stream}</div>
+        <div class="topper-year-tag">Class of ${t.year}</div>
+      </div>`).join('');
 }
 
 function filterToppers(filter, btn) {
