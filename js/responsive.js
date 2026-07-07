@@ -8,6 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
     hamburger.addEventListener('click', () => {
       navLinks.classList.toggle('open');
     });
+    
+    // Close menu when a link is clicked
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+      });
+    });
   }
 
   // Lazy load all images (adds loading="lazy" if not present)

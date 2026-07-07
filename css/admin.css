@@ -57,3 +57,14 @@
 /* Recent activity list */
 .activity-list{list-style:none; padding:0; margin:0;}
 .activity-list li{padding:6px 0; border-bottom:1px solid var(--light-gray); font-size:0.9rem;}
+
+/* ---- MOBILE ADMIN FIXES ---- */
+@media (max-width: 768px) {
+  /* Tables horizontally scrollable */
+  table { 
+    display: block; 
+    width: 100%; 
+    overflow-x: auto; 
+    white-space: nowrap; 
+  }
+}
