@@ -5,10 +5,11 @@ document.addEventListener('DOMContentLoaded', function () {
   // Preloader
   const preloader = document.getElementById('preloader');
   if (preloader) {
-    preloader.classList.add('show');
     setTimeout(() => {
-      preloader.classList.remove('show');
-      preloader.style.display = 'none';
+      preloader.classList.add('hide');
+      setTimeout(() => {
+        preloader.style.display = 'none';
+      }, 500); // Wait for transition to finish
     }, 1500);
   }
 
@@ -66,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
 
   // Active nav link based on current page
-  const current = window.location.pathname.split('/').pop();
+  const current = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links a').forEach(a => {
     a.classList.toggle('active', a.getAttribute('href') === current);
   });
