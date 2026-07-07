@@ -42,4 +42,37 @@ document.addEventListener('DOMContentLoaded', () => {
       window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
     });
   }
+
+  // ---- 3D Mouse-Tilt Effect for Cards ----
+  const tiltTargets = document.querySelectorAll('.why-card, .news-card, .topper-card, .vm-card, .hero-card');
+  tiltTargets.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const cx = rect.width  / 2;
+      const cy = rect.height / 2;
+      const rotateX = ((y - cy) / cy) * -10; // max ±10deg
+      const rotateY = ((x - cx) / cx) *  10;
+      card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+
+  // ---- 3D Parallax on Hero Section ----
+  const hero = document.querySelector('.hero-inner');
+  if (hero) {
+    document.addEventListener('mousemove', (e) => {
+      const xFactor = (e.clientX / window.innerWidth  - 0.5) * 8;
+      const yFactor = (e.clientY / window.innerHeight - 0.5) * 5;
+      hero.style.transform = `perspective(1200px) rotateX(${-yFactor}deg) rotateY(${xFactor}deg)`;
+      hero.style.transition = 'transform 0.1s linear';
+    });
+    document.addEventListener('mouseleave', () => {
+      hero.style.transform = '';
+      hero.style.transition = 'transform 0.6s ease';
+    });
+  }
 });

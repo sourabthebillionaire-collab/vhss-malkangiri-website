@@ -331,13 +331,20 @@ ul { list-style: none; }
   font-size: 14px; font-weight: 600;
   cursor: pointer; border: none;
   transition: var(--transition); font-family: 'Inter', sans-serif;
+  position: relative; overflow: hidden;
 }
 .btn-primary { background: var(--saffron); color: white; }
-.btn-primary:hover { background: var(--saffron-light); transform: translateY(-1px); }
+.btn-primary::after {
+  content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+  transform: skewX(-25deg); animation: shine 3.5s infinite;
+}
+@keyframes shine { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+.btn-primary:hover { background: var(--saffron-light); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(232,120,10,0.3); }
 .btn-navy { background: var(--navy); color: white; }
-.btn-navy:hover { background: var(--navy-light); }
+.btn-navy:hover { background: var(--navy-light); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(10,31,92,0.3); }
 .btn-outline { background: transparent; border: 2px solid var(--navy); color: var(--navy); }
-.btn-outline:hover { background: var(--navy); color: white; }
+.btn-outline:hover { background: var(--navy); color: white; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(10,31,92,0.2); }
 .btn-red { background: var(--red); color: white; }
 .btn-sm { padding: 8px 16px; font-size: 13px; }
 .btn-lg { padding: 15px 32px; font-size: 15px; }
@@ -535,6 +542,22 @@ footer {
   transition: all 0.6s ease;
 } 
 
+/* Hero stagger animations */
+@keyframes heroFadeUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.hero-left > * {
+  animation: heroFadeUp 0.8s ease-out forwards;
+  opacity: 0;
+}
+.hero-left .hero-eyebrow { animation-delay: 0.1s; }
+.hero-left h1 { animation-delay: 0.25s; }
+.hero-left .hero-tagline { animation-delay: 0.4s; }
+.hero-left .hero-tagline-odia { animation-delay: 0.5s; }
+.hero-left .hero-btns { animation-delay: 0.65s; }
+.hero-left .hero-phones { animation-delay: 0.8s; }
+
 /* ---- RESULTS PAGE ENHANCEMENTS ---- */
 
 /* Hall of Fame banner */
@@ -667,6 +690,11 @@ footer {
 }
 
 /* WhatsApp floating button */
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
 .whatsapp-float {
   position: fixed;
   bottom: 24px;
@@ -683,7 +711,10 @@ footer {
   z-index: 1000;
   box-shadow: var(--shadow);
   cursor: pointer;
+  animation: pulseGlow 2s infinite;
+  transition: transform 0.3s ease;
 }
+.whatsapp-float:hover { transform: scale(1.1) rotate(10deg); }
 
 /* Footer credit */
 footer .footer-credit { text-align: center; font-size: 0.9rem; color: var(--mid-gray); margin-top: 12px; }
@@ -769,4 +800,225 @@ img {
 
 @media (max-width: 600px) {
   .grid-2, .grid-3, .grid-4, .why-grid, .news-grid, .topper-strip { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   3D ANIMATIONS & PREMIUM EFFECTS
+   ============================================================ */
+
+/* Global perspective layer for 3D cards */
+.why-grid, .news-grid, .topper-strip, .grid-3, .grid-2, .grid-4 {
+  perspective: 1200px;
+}
+
+/* ---- 3D Tilt Card Effect ---- */
+.why-card, .news-card, .card, .vm-card, .topper-card {
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s ease;
+  will-change: transform;
+}
+.why-card:hover, .news-card:hover, .card:hover {
+  box-shadow: 0 24px 60px rgba(10,31,92,0.2), 0 8px 20px rgba(10,31,92,0.12);
+}
+
+/* ---- 3D Stat Bar Flip-in ---- */
+@keyframes stat3dFlip {
+  0%   { opacity: 0; transform: rotateX(-90deg) translateY(20px); }
+  100% { opacity: 1; transform: rotateX(0deg) translateY(0); }
+}
+.stat-item {
+  transform-style: preserve-3d;
+  animation: stat3dFlip 0.7s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+.stat-item:nth-child(1) { animation-delay: 0.05s; }
+.stat-item:nth-child(2) { animation-delay: 0.15s; }
+.stat-item:nth-child(3) { animation-delay: 0.25s; }
+.stat-item:nth-child(4) { animation-delay: 0.35s; }
+.stat-item:nth-child(5) { animation-delay: 0.45s; }
+
+.stat-number {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+.stat-item:hover .stat-number {
+  transform: scale(1.15) translateY(-3px);
+  color: white;
+  text-shadow: 0 4px 16px rgba(232,120,10,0.6);
+}
+
+/* ---- 3D Page Hero Text Depth ---- */
+.page-hero h1 {
+  text-shadow: 0 4px 0 rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.15);
+  transform: perspective(600px) translateZ(0px);
+  transition: transform 0.4s ease;
+}
+.page-hero:hover h1 {
+  transform: perspective(600px) translateZ(12px);
+}
+
+/* ---- 3D Brand Logo Spin on Hover ---- */
+.brand-logo {
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-style: preserve-3d;
+}
+.nav-brand:hover .brand-logo {
+  transform: rotateY(360deg);
+}
+
+/* ---- 3D Section Divider ---- */
+.divider {
+  position: relative;
+  transform-origin: left center;
+  animation: dividerGrow 0.8s cubic-bezier(0.23,1,0.32,1) both;
+}
+@keyframes dividerGrow {
+  0%   { transform: scaleX(0) rotateY(-90deg); opacity: 0; }
+  100% { transform: scaleX(1) rotateY(0deg);   opacity: 1; }
+}
+
+/* ---- 3D Topper Card Avatar Ring Spin ---- */
+.topper-avatar, .avatar-placeholder {
+  animation: ring3d 6s linear infinite;
+  transform-style: preserve-3d;
+}
+@keyframes ring3d {
+  0%   { box-shadow: 0 0 0 3px var(--saffron), 4px 4px 12px rgba(232,120,10,0.3); }
+  50%  { box-shadow: 0 0 0 5px var(--saffron-light), 0 8px 24px rgba(232,120,10,0.5); }
+  100% { box-shadow: 0 0 0 3px var(--saffron), 4px 4px 12px rgba(232,120,10,0.3); }
+}
+.topper-card:hover .topper-avatar,
+.topper-card:hover .avatar-placeholder {
+  transform: rotateY(20deg) scale(1.08);
+  transition: transform 0.5s ease;
+}
+
+/* ---- 3D Card Rise on Section Reveal ---- */
+@keyframes card3dRise {
+  0%   { opacity: 0; transform: translateY(40px) rotateX(15deg) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0)   rotateX(0deg)  scale(1); }
+}
+[data-animate="card"].animate-fade-up {
+  animation: card3dRise 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+/* ---- 3D Floating Orbit on College Emblem (About Page) ---- */
+.college-emblem {
+  display: inline-block;
+  animation: orbit3d 4s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+@keyframes orbit3d {
+  0%   { transform: perspective(300px) rotateY(0deg)   translateZ(0px);  }
+  25%  { transform: perspective(300px) rotateY(10deg)  translateZ(10px);  }
+  50%  { transform: perspective(300px) rotateY(0deg)   translateZ(20px);  }
+  75%  { transform: perspective(300px) rotateY(-10deg) translateZ(10px);  }
+  100% { transform: perspective(300px) rotateY(0deg)   translateZ(0px);  }
+}
+
+/* ---- 3D Hero Card Float with Depth ---- */
+.hero-card {
+  transform-style: preserve-3d;
+  animation: heroCardFloat 6s ease-in-out infinite;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.25), 0 4px 12px rgba(0,0,0,0.1);
+}
+@keyframes heroCardFloat {
+  0%   { transform: perspective(800px) rotateX(2deg)  rotateY(-4deg) translateY(0px); }
+  33%  { transform: perspective(800px) rotateX(-2deg) rotateY(4deg)  translateY(-10px); }
+  66%  { transform: perspective(800px) rotateX(3deg)  rotateY(0deg)  translateY(-4px); }
+  100% { transform: perspective(800px) rotateX(2deg)  rotateY(-4deg) translateY(0px); }
+}
+
+/* ---- 3D Stream Items Slide In ---- */
+.stream-item {
+  transform-origin: left center;
+  transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1), background 0.3s ease;
+}
+.stream-item:hover {
+  transform: perspective(600px) rotateY(-4deg) translateX(8px);
+  background: rgba(232,120,10,0.18);
+}
+
+/* ---- 3D Nav Links Underline Pop ---- */
+.nav-links a {
+  position: relative;
+}
+.nav-links a::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%;
+  width: 0; height: 2px;
+  background: var(--saffron-light);
+  transition: width 0.3s ease, left 0.3s ease;
+  transform-origin: center;
+}
+.nav-links a:hover::before,
+.nav-links a.active::before {
+  width: 60%;
+  left: 20%;
+}
+
+/* ---- 3D Footer Links ---- */
+.footer-col a {
+  transition: transform 0.25s ease, color 0.25s ease, padding-left 0.25s ease;
+}
+.footer-col a:hover {
+  transform: perspective(400px) translateZ(6px) translateX(6px);
+  color: var(--saffron-light);
+  padding-left: 4px;
+}
+
+/* ---- 3D Ticker Label ---- */
+.ticker-label {
+  transition: transform 0.3s ease;
+}
+.ticker-bar:hover .ticker-label {
+  transform: perspective(200px) rotateY(8deg) scale(1.05);
+}
+
+/* ---- 3D Milestone Dots (About page) ---- */
+.milestone-dot {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.milestone-line:hover .milestone-dot {
+  transform: perspective(100px) rotateY(45deg) scale(1.3);
+  box-shadow: 0 0 0 6px rgba(232,120,10,0.25);
+}
+
+/* ---- Back to Top 3D rise ---- */
+#backToTop {
+  transition: transform 0.3s cubic-bezier(0.23,1,0.32,1), opacity 0.3s ease;
+}
+#backToTop:hover {
+  transform: perspective(200px) rotateX(20deg) translateY(-4px) scale(1.1);
+  box-shadow: 0 12px 28px rgba(232,120,10,0.45);
+}
+
+/* ---- Preloader 3D Spin ---- */
+@keyframes preloader3d {
+  0%   { transform: perspective(400px) rotateY(0deg) scale(1); }
+  50%  { transform: perspective(400px) rotateY(180deg) scale(1.1); }
+  100% { transform: perspective(400px) rotateY(360deg) scale(1); }
+}
+#preloader {
+  animation: preloader3d 2s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+}
+#preloader.hide {
+  animation: none;
+}
+
+/* ---- Section Header 3D Slide ---- */
+@keyframes heading3d {
+  0%   { opacity: 0; transform: perspective(600px) translateX(-30px) rotateY(-15deg); }
+  100% { opacity: 1; transform: perspective(600px) translateX(0)     rotateY(0deg); }
+}
+[data-animate="heading"].animate-slide-in {
+  animation: heading3d 0.7s cubic-bezier(0.23,1,0.32,1) forwards;
+}
+
+/* Disable heavy 3D on low-power devices / mobile */
+@media (max-width: 768px) {
+  .college-emblem { animation: none; }
+  .hero-card { animation: floatCard 6s ease-in-out infinite; }
+  [data-animate="card"].animate-fade-up { animation: card3dRise 0.5s ease forwards; }
+  .stream-item:hover { transform: translateX(6px); }
 }
