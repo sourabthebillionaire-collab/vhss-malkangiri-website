@@ -5,12 +5,8 @@ document.addEventListener('DOMContentLoaded', function () {
   // Preloader
   const preloader = document.getElementById('preloader');
   if (preloader) {
-    setTimeout(() => {
-      preloader.classList.add('hide');
-      setTimeout(() => {
-        preloader.style.display = 'none';
-      }, 500); // Wait for transition to finish
-    }, 1500);
+    preloader.classList.add('hide');
+    preloader.style.display = 'none';
   }
 
   // Back to top button
@@ -47,24 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }, 16);
   });
-
-  // Intersection Observer for scroll animations
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        if (el.dataset.animate === 'heading') {
-          el.classList.add('animate-slide-in');
-        } else if (el.dataset.animate === 'card') {
-          const delay = parseInt(el.dataset.delay) || 0;
-          setTimeout(() => el.classList.add('animate-fade-up'), delay);
-        }
-        obs.unobserve(el);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
 
   // Active nav link based on current page
   const current = window.location.pathname.split('/').pop() || 'index.html';
