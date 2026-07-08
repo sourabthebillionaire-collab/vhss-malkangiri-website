@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Contact Vivekananda Higher Secondary +2 Junior Science College in Malkangiri for admissions, hostel, course and campus information."/>
+<meta name="keywords" content="VHSS contact, Malkangiri college contact, admissions enquiry"/>
 <title>Contact — VHSS Malkangiri</title>
 <link rel="stylesheet" href="css/style.css"/>
 <style>
@@ -68,6 +70,7 @@
           </select>
         </div>
         <div class="form-group"><label>Message *</label><textarea id="c_msg" placeholder="Write your message here..."></textarea></div>
+        <div class="form-group"><label>Preferred Contact Time</label><select id="c_time"><option value="">Any time</option><option>Morning</option><option>Afternoon</option><option>Evening</option></select></div>
         <button class="btn btn-primary" style="width:100%;justify-content:center;font-size:15px;padding:14px" onclick="sendMessage()">Send Message →</button>
       </div>
     </div>
@@ -92,7 +95,7 @@ function sendMessage() {
   const msg = document.getElementById('c_msg').value.trim();
   if (!name || !phone || !msg) { showToast('Please fill all required fields.', 'error'); return; }
   showToast(`Message sent! We'll contact you at ${phone} soon.`, 'success');
-  ['c_name','c_phone','c_email','c_subject','c_msg'].forEach(id => document.getElementById(id).value='');
+  ['c_name','c_phone','c_email','c_subject','c_msg','c_time'].forEach(id => document.getElementById(id).value='');
 }
 </script>
 </body>

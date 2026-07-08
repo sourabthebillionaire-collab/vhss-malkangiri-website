@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Vivekananda Higher Secondary +2 Junior Science College in Malkangiri offers quality residential education, science, commerce and arts streams, and strong results."/>
+<meta name="keywords" content="VHSS Malkangiri, Vivekananda Higher Secondary, +2 college, Malkangiri admissions, science college Odisha"/>
+<meta property="og:title" content="VHSS Malkangiri | Quality Education with Vivekananda Values"/>
+<meta property="og:description" content="A trusted residential junior college in Malkangiri offering excellent teaching, modern facilities, and strong academic results."/>
+<meta property="og:type" content="website"/>
 <title>Vivekananda Higher Secondary +2 Junior Science College — Malkangiri</title>
 <link rel="stylesheet" href="css/style.css"/>
 <style>
@@ -173,6 +178,7 @@
       </div>
     </a>
     <div class="nav-links" id="navLinks">
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">🌙</button>
       <a href="index.html" class="active">Home</a>
       <a href="about.html">About</a>
       <a href="courses.html">Courses</a>
@@ -215,10 +221,18 @@
       </div>
     </div>
     <div class="hero-right">
-      <div class="hero-card floating">
-        <div class="hero-card-title">Available Streams</div>
-        <div id="heroStreams"></div>
-        <a href="admissions.html" class="admission-cta">🎓 Apply Now — Seats Filling Fast</a>
+      <div class="hero-visual">
+        <img class="hero-visual-image" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80" alt="Students learning in a college classroom"/>
+        <div class="hero-visual-card">
+          <strong>Why families choose VHSS</strong>
+          <p>Residential support, dedicated faculty, and a values-driven learning environment.</p>
+          <div class="hero-badges">
+            <span class="hero-badge">🏠 Residential</span>
+            <span class="hero-badge">📚 Strong Results</span>
+            <span class="hero-badge">🎯 Guided Careers</span>
+          </div>
+          <div id="heroStreams" class="hero-stream-list"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -234,6 +248,32 @@
     <div class="stat-item"><div class="stat-number" id="s5" data-target="4">0</div><div class="stat-label">Streams</div></div>
   </div>
 </div>
+
+<!-- Quick Access -->
+<section class="section section-white">
+  <div class="container">
+    <div class="quick-access-grid">
+      <div class="quick-access-card">
+        <div class="quick-access-icon">🎓</div>
+        <h3>Apply for Admission</h3>
+        <p>Start your application for 2025–26 and reserve your place in the stream of your choice.</p>
+        <a href="admissions.html">See admission steps →</a>
+      </div>
+      <div class="quick-access-card">
+        <div class="quick-access-icon">👩‍🏫</div>
+        <h3>Meet Our Faculty</h3>
+        <p>Learn about the qualified educators and mentors guiding students every day.</p>
+        <a href="faculty.html">View faculty profile →</a>
+      </div>
+      <div class="quick-access-card">
+        <div class="quick-access-icon">🏫</div>
+        <h3>Explore Campus Life</h3>
+        <p>See the facilities, activities and student experience that make VHSS special.</p>
+        <a href="campus.html">Visit campus page →</a>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- Why Choose Us -->
 <section class="section">
@@ -251,6 +291,47 @@
       <div class="why-card" data-animate="card"><div class="why-icon">🔬</div><h3>Modern Labs</h3><p>Well-equipped Physics, Chemistry, Biology and Computer labs. Practical learning that goes beyond textbooks.</p></div>
       <div class="why-card" data-animate="card"><div class="why-icon">🎯</div><h3>Competitive Exam Prep</h3><p>Special coaching for JEE, NEET, CLAT and OAS integrated with regular curriculum. Students make it to top institutions nationwide.</p></div>
       <div class="why-card" data-animate="card"><div class="why-icon">⚽</div><h3>Sports & Culture</h3><p>Annual sports meet, cultural festivals, debates and NSS activities. Holistic development in the spirit of Swami Vivekananda.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Admissions Highlights -->
+<section class="section section-white">
+  <div class="container">
+    <div class="section-header centered">
+      <div class="section-eyebrow">Admissions at a Glance</div>
+      <h2 class="section-title">A Clear Path to Success</h2>
+      <div class="divider center"></div>
+    </div>
+    <div class="admission-highlights">
+      <div class="highlight-card"><strong>Eligibility</strong><p>Students from Class X can apply for Science, Commerce or Arts streams based on merit and availability.</p></div>
+      <div class="highlight-card"><strong>Support</strong><p>We guide students with hostel facilities, academic mentoring, and career counselling from day one.</p></div>
+      <div class="highlight-card"><strong>Apply Early</strong><p>Seats fill quickly, so early applications are recommended for preferred streams.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="section">
+  <div class="container">
+    <div class="section-header centered">
+      <div class="section-eyebrow">Student Voices</div>
+      <h2 class="section-title">What Students and Parents Say</h2>
+      <div class="divider center"></div>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <p class="testimonial-quote">“The faculty is very supportive and the campus environment helps us focus on studies and discipline.”</p>
+        <div class="testimonial-author"><div class="testimonial-avatar">SR</div><div><div class="testimonial-name">Sushree R.</div><div class="testimonial-role">Student, Science Stream</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-quote">“My daughter feels safe, motivated and guided here. The college has given her confidence to dream bigger.”</p>
+        <div class="testimonial-author"><div class="testimonial-avatar">PK</div><div><div class="testimonial-name">Pramod K.</div><div class="testimonial-role">Parent</div></div></div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-quote">“The balance of academics, values and residential discipline makes VHSS stand out among nearby institutions.”</p>
+        <div class="testimonial-author"><div class="testimonial-avatar">AM</div><div><div class="testimonial-name">Anita M.</div><div class="testimonial-role">Alumni</div></div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -329,6 +410,13 @@
 <script src="js/data.js"></script>
 <script src="js/homepage.js" defer></script>
 <script src="js/responsive.js" defer></script>
+<script>
+function toggleTheme() {
+  document.body.classList.toggle('theme-dark');
+  const button = document.querySelector('.theme-toggle');
+  if (button) button.textContent = document.body.classList.contains('theme-dark') ? '☀️' : '🌙';
+}
+</script>
 <script>
 // Load ticker
 const news = getData('news');
