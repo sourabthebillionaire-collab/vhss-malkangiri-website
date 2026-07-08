@@ -77,21 +77,30 @@
 
 <section class="section">
   <div class="container">
-  <div id="preloader">VHSS</div>
-    <div class="empty-state" id="emptyState" style="display:none"><div class="empty-icon">📚</div><p>No courses added yet. Check back soon.</p></div>
-  </div>
-<section class="section">
-  <div class="courses-controls">
-    <input type="text" id="courseSearch" placeholder="Search courses..." class="search-input"/>
-    <button id="compareBtn" class="btn btn-primary">Compare Streams</button>
-  </div>
-  <div class="courses-page">
-    <aside class="sidebar-streams">
-      <h4>Streams</h4>
-      <ul id="streamsList"></ul>
-    </aside>
-    <div class="main-courses">
-      <div class="container">
+    <div class="page-highlight">
+      <div class="section-eyebrow" style="color:var(--saffron-light)">Choose the stream that fits your goals</div>
+      <h3>Each course is designed to balance academic depth, practical learning and future readiness.</h3>
+      <p>Explore the available streams, compare subjects and discover the careers they open up.</p>
+      <div class="page-quick-links">
+        <a href="admissions.html" class="btn btn-primary btn-sm">Apply for a Stream</a>
+        <a href="contact.html" class="btn btn-outline btn-sm" style="color:white;border-color:rgba(255,255,255,0.22)">Ask a Question</a>
+      </div>
+      <div class="info-badges">
+        <span class="info-badge">📚 Multiple streams</span>
+        <span class="info-badge">🎯 Career-focused</span>
+        <span class="info-badge">📈 Strong academic support</span>
+      </div>
+    </div>
+    <div class="courses-controls">
+      <input type="text" id="courseSearch" placeholder="Search courses..." class="search-input"/>
+      <button id="compareBtn" class="btn btn-primary">Compare Streams</button>
+    </div>
+    <div class="courses-page">
+      <aside class="sidebar-streams">
+        <h4>Streams</h4>
+        <ul id="streamsList"></ul>
+      </aside>
+      <div class="main-courses">
         <div id="coursesContainer"></div>
         <div class="empty-state" id="emptyState" style="display:none">
           <div class="empty-icon">📚</div>
@@ -99,15 +108,14 @@
         </div>
       </div>
     </div>
-  </div>
-  <!-- Compare Streams Modal -->
-  <div class="modal-overlay" id="compareModal" style="display:none">
-    <div class="modal">
-      <div class="modal-header">
-        <h3>Stream Comparison</h3>
-        <button class="close-modal" onclick="closeCompare()">✖</button>
+    <div class="modal-overlay" id="compareModal" style="display:none">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Stream Comparison</h3>
+          <button class="close-modal" onclick="closeCompare()">✖</button>
+        </div>
+        <div class="modal-body" id="compareBody"></div>
       </div>
-      <div class="modal-body" id="compareBody"></div>
     </div>
   </div>
 </section>
